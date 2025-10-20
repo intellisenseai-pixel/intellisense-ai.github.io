@@ -5,34 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intellisense AI - Arquitetos de Negócios</title>
     <style>
-        /* Importando as fontes do Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap' );
 
-        /* Reset e Estilos Globais */
         body {
             margin: 0;
             font-family: 'Open Sans', sans-serif;
             background-color: #FFFFFF;
             color: #333;
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
 
-        /* Container Principal */
-        .main-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
             padding: 40px 20px;
         }
 
-        /* Cabeçalho e Logo */
         header {
-            padding: 20px;
-            border-bottom: 1px solid #F0F0F0; /* Cinza Claro */
+            padding: 20px 0;
+            border-bottom: 1px solid #F0F0F0;
+            margin-bottom: 40px;
         }
 
         .logo {
@@ -40,26 +32,72 @@
             height: auto;
         }
 
-        /* Conteúdo Principal */
         h1 {
             font-family: 'Montserrat', sans-serif;
             font-size: 2.5em;
             color: #1A3B5D; /* Azul Escuro */
-            margin-top: 40px;
             margin-bottom: 10px;
         }
 
-        p {
-            font-size: 1.2em;
-            line-height: 1.6;
-            max-width: 600px;
-            margin: 0 auto 30px auto;
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2em;
+            color: #1A3B5D;
+            margin-top: 60px;
+            border-bottom: 2px solid #FF8C00; /* Laranja */
+            padding-bottom: 10px;
+            display: inline-block;
         }
 
-        /* Botão de Chamada para Ação (CTA) */
+        p {
+            font-size: 1.1em;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        .section-intro {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            flex-basis: 30%;
+            min-width: 220px;
+        }
+        
+        .feature-item h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: #1A3B5D;
+        }
+
+        form {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1em;
+            box-sizing: border-box; /* Garante que padding não afete a largura total */
+        }
+        
         .cta-button {
-            display: inline-block;
-            background-color: #FF8C00; /* Laranja */
+            background-color: #FF8C00;
             color: #FFFFFF;
             padding: 15px 30px;
             font-family: 'Montserrat', sans-serif;
@@ -67,45 +105,73 @@
             text-decoration: none;
             border-radius: 5px;
             font-size: 1.1em;
+            border: none;
+            cursor: pointer;
             transition: background-color 0.3s ease;
+            width: auto;
+            align-self: center;
         }
 
         .cta-button:hover {
-            background-color: #e67e00; /* Laranja mais escuro */
+            background-color: #e67e00;
         }
 
-        /* Rodapé */
         footer {
-            padding: 20px;
+            padding: 40px 20px 20px 20px;
             font-size: 0.9em;
             color: #888;
-        }
-
-        /* Media Queries para Responsividade */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2em;
-            }
-            p {
-                font-size: 1em;
-            }
+            border-top: 1px solid #F0F0F0;
+            margin-top: 60px;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <!-- Caminho para a logo atualizado -->
         <img src="Logo Principal.png" alt="Logo Intellisense AI" class="logo">
     </header>
 
-    <div class="main-container">
+    <!-- Seção Principal -->
+    <div class="container">
         <h1>Construímos Sistemas de Geração de Receita.</h1>
-        <p>
+        <p class="section-intro">
             A Intellisense AI atua como sua parceira estratégica, arquitetando e implementando sistemas sob medida que transformam potencial em performance financeira.
         </p>
-        <!-- O link do botão será '#' por enquanto. -->
-        <a href="#" class="cta-button">INICIAR CONVERSA</a>
+
+        <!-- Seção de Detalhamento -->
+        <h2>Nossos Pilares de Atuação</h2>
+        <div class="features">
+            <div class="feature-item">
+                <h3>Inteligência de Dados</h3>
+                <p>Analisamos seus processos e dados para extrair insights acionáveis, permitindo decisões mais rápidas e lucrativas.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Automação Estratégica</h3>
+                <p>Desenvolvemos e implementamos automações que otimizam seu fluxo de trabalho, liberando seu tempo para focar no crescimento.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Posicionamento Digital</h3>
+                <p>Construímos sua presença online, desde landing pages a sistemas complexos, para atrair e converter seus clientes ideais.</p>
+            </div>
+        </div>
+
+        <!-- Seção Sobre Nós -->
+        <h2>Nossa Filosofia: Arquiteto & Construtor</h2>
+        <p>
+            Operamos sob o paradigma da parceria Arquiteto (a visão estratégica do cliente) e Construtor (nossa capacidade de execução técnica). Não vendemos ferramentas, entregamos sistemas funcionais. Nossa missão é entender sua visão e materializá-la em um ativo que gera receita e fortalece sua marca.
+        </p>
+
+        <!-- Seção de Contato -->
+        <h2>Inicie a Conversa</h2>
+        <p>Vamos agendar uma conversa para entender sua visão e como podemos construir o sistema que levará seu negócio ao próximo nível.</p>
+        
+        <!-- Formulário Formspree -->
+        <form action="https://formspree.io/f/SEU_CODIGO_UNICO_AQUI" method="POST">
+            <input type="text" name="Nome" placeholder="Seu nome" required>
+            <input type="email" name="Email" placeholder="Seu melhor e-mail" required>
+            <textarea name="Mensagem" rows="5" placeholder="Descreva brevemente sua visão ou desafio..." required></textarea>
+            <button type="submit" class="cta-button">ENVIAR MENSAGEM</button>
+        </form>
     </div>
 
     <footer>
