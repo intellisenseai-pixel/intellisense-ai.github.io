@@ -1,1 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kastel - Dashboard de Reputação</title>
+    <style>
+        /* Estilos básicos serão adicionados aqui depois */
+        body { font-family: sans-serif; background-color: #f4f7f6; color: #333; margin: 0; }
+        header { background-color: #2c3e50; color: white; padding: 1rem 2rem; }
+        main { padding: 2rem; }
+        h1, h2 { color: #34495e; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .card { background-color: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 1.5rem; }
+    </style>
+</head>
+<body>
 
+    <header>
+        <h1>Intellisense AI & Kastel | Dashboard de Reputação</h1>
+    </header>
+
+    <main>
+        <section id="visao-geral">
+            <h2>Visão Geral da Rede</h2>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>Nota Média da Rede</h3>
+                    <p style="font-size: 2.5rem; font-weight: bold; color: #e67e22;">4.1 ★</p>
+                    <small>Baseado em 1.834 reviews públicos</small>
+                </div>
+                <div class="card">
+                    <h3>Sentimento Geral</h3>
+                    <p style="font-size: 2.5rem; font-weight: bold; color: #27ae60;">78% Positivo</p>
+                    <small>15% Neutro, 7% Negativo</small>
+                </div>
+            </div>
+        </section>
+
+        <section id="unidades" style="margin-top: 3rem;">
+            <h2>Performance por Unidade</h2>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h4>Kastel Centro Petrópolis</h4>
+                    <p style="font-size: 1.8rem; font-weight: bold;">4.2 ★</p>
+                    <a href="#">Ver detalhes &rarr;</a>
+                </div>
+                <div class="card">
+                    <h4>Kastel Manibu Recife</h4>
+                    <p style="font-size: 1.8rem; font-weight: bold;">4.0 ★</p>
+                    <a href="#">Ver detalhes &rarr;</a>
+                </div>
+                <div class="card">
+                    <h4>Kastel Jatiúca Maceió</h4>
+                    <p style="font-size: 1.8rem; font-weight: bold;">4.4 ★</p>
+                    <a href="#">Ver detalhes &rarr;</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
