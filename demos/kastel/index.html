@@ -4,110 +4,134 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kastel - Dashboard de Reputação</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- Reset Básico e Variáveis de Cor --- */
         :root {
-            --cor-fundo: #f4f7f6;
-            --cor-texto: #333;
-            --cor-primaria: #2c3e50; /* Azul escuro */
-            --cor-secundaria: #3498db; /* Azul claro */
-            --cor-destaque: #e67e22; /* Laranja */
-            --cor-sucesso: #27ae60; /* Verde */
+            --cor-fundo: #f8f9fa;
+            --cor-texto: #495057;
+            --cor-primaria: #002d4b; /* Azul Kastel */
+            --cor-secundaria: #b59247; /* Dourado Kastel */
+            --cor-sucesso: #28a745;
+            --cor-alerta: #ffc107;
+            --cor-perigo: #dc3545;
             --cor-branco: #ffffff;
-            --sombra-card: 0 6px 12px rgba(0,0,0,0.1);
+            --sombra-card: 0 4px 15px rgba(0, 0, 0, 0.05 );
+            --sombra-card-hover: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background-color: var(--cor-fundo);
             color: var(--cor-texto);
             margin: 0;
             line-height: 1.6;
         }
 
-        /* --- Cabeçalho --- */
         header {
             background-color: var(--cor-primaria);
             color: var(--cor-branco);
-            padding: 1.5rem 2rem;
+            padding: 1.25rem 2.5rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         header h1 {
             margin: 0;
             font-size: 1.5rem;
-            color: var(--cor-branco);
+            font-weight: 600;
         }
 
-        /* --- Conteúdo Principal --- */
         main {
-            padding: 2rem;
+            padding: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
             color: var(--cor-primaria);
-            border-bottom: 2px solid var(--cor-secundaria);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
+            border-bottom: 3px solid var(--cor-secundaria);
+            padding-bottom: 0.75rem;
+            margin-bottom: 2rem;
         }
 
-        /* --- Grid do Dashboard e Cards --- */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
         .card {
             background-color: var(--cor-branco);
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: var(--sombra-card);
-            padding: 1.5rem;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid transparent;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: var(--sombra-card-hover);
+        }
+        
+        .card.highlight-border {
+             border-top-color: var(--cor-secundaria);
         }
 
-        .card h3, .card h4 {
-            margin-top: 0;
-            color: #34495e;
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
-
-        .card .metric {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 0.5rem 0;
-        }
-
-        .card .sub-metric {
+        
+        .card-header .icon {
             font-size: 1.8rem;
-            font-weight: bold;
+            color: var(--cor-secundaria);
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #343a40;
+        }
+
+        .metric {
+            font-size: 3rem;
+            font-weight: 700;
             margin: 0.5rem 0;
         }
 
-        .card small {
-            color: #7f8c8d;
+        .sub-metric {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        small {
+            color: #6c757d;
+            font-size: 0.85rem;
         }
 
         .card a {
             color: var(--cor-secundaria);
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
+            transition: color 0.2s;
         }
 
         .card a:hover {
-            text-decoration: underline;
+            color: var(--cor-primaria);
         }
 
-        /* --- Cores Específicas --- */
-        .text-destaque { color: var(--cor-destaque); }
         .text-sucesso { color: var(--cor-sucesso); }
+        .text-alerta { color: var(--cor-alerta); }
+        .text-perigo { color: var(--cor-perigo); }
+        .text-dourado { color: var(--cor-secundaria); }
 
     </style>
 </head>
@@ -121,36 +145,50 @@
         <section id="visao-geral">
             <h2>Visão Geral da Rede</h2>
             <div class="dashboard-grid">
-                <div class="card">
-                    <h3>Nota Média da Rede</h3>
-                    <p class="metric text-destaque">4.1 ★</p>
+                <div class="card highlight-border">
+                    <div class="card-header">
+                        <span class="icon">⭐</span>
+                        <h3>Nota Média da Rede</h3>
+                    </div>
+                    <p class="metric text-alerta">4.1 ★</p>
                     <small>Baseado em 1.834 reviews públicos</small>
                 </div>
-                <div class="card">
-                    <h3>Sentimento Geral</h3>
+                <div class="card highlight-border">
+                    <div class="card-header">
+                        <span class="icon">📈</span>
+                        <h3>Sentimento Geral</h3>
+                    </div>
                     <p class="metric text-sucesso">78% Positivo</p>
                     <small>15% Neutro, 7% Negativo</small>
+                </div>
+                <div class="card highlight-border">
+                    <div class="card-header">
+                        <span class="icon">💰</span>
+                        <h3>Oportunidade de Receita</h3>
+                    </div>
+                    <p class="metric text-sucesso">+R$ 1.2M/ano</p>
+                    <small>Potencial ao aumentar a nota média para 4.5</small>
                 </div>
             </div>
         </section>
 
-        <section id="unidades" style="margin-top: 3rem;">
+        <section id="unidades" style="margin-top: 3.5rem;">
             <h2>Performance por Unidade</h2>
             <div class="dashboard-grid">
                 <div class="card">
-                    <h4>Kastel Centro Petrópolis</h4>
-                    <p class="sub-metric text-destaque">4.2 ★</p>
-                    <a href="#">Ver detalhes &rarr;</a>
+                    <h3>Kastel Centro Petrópolis</h3>
+                    <p class="sub-metric text-alerta">4.2 ★</p>
+                    <a href="#">Analisar Unidade &rarr;</a>
                 </div>
                 <div class="card">
-                    <h4>Kastel Manibu Recife</h4>
-                    <p class="sub-metric text-destaque">4.0 ★</p>
-                    <a href="#">Ver detalhes &rarr;</a>
+                    <h3>Kastel Manibu Recife</h3>
+                    <p class="sub-metric text-perigo">4.0 ★</p>
+                    <a href="#">Analisar Unidade &rarr;</a>
                 </div>
                 <div class="card">
-                    <h4>Kastel Jatiúca Maceió</h4>
+                    <h3>Kastel Jatiúca Maceió</h3>
                     <p class="sub-metric text-sucesso">4.4 ★</p>
-                    <a href="#">Ver detalhes &rarr;</a>
+                    <a href="#">Analisar Unidade &rarr;</a>
                 </div>
             </div>
         </section>
