@@ -9,20 +9,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --cor-fundo: #fdfdfd;
-            --cor-primaria: #002d4b;
-            --cor-secundaria: #b59247;
+            --cor-fundo: #f9f9f9;
+            --cor-primaria: #002d4b; /* Azul Kastel Preciso */
+            --cor-secundaria: #b59247; /* Dourado Kastel Preciso */
             --cor-texto: #343a40;
             --cor-sucesso: #28a745;
             --cor-alerta: #ffc107;
             --cor-perigo: #dc3545;
             --cor-branco: #ffffff;
-            --sombra-card: 0 5px 20px rgba(0, 45, 75, 0.07 );
-            --sombra-card-hover: 0 12px 30px rgba(0, 45, 75, 0.12);
+            --sombra-card: 0 7px 25px rgba(0, 45, 75, 0.08 );
+            --sombra-card-hover: 0 15px 35px rgba(0, 45, 75, 0.15);
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes countUp { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes countUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         body {
             font-family: 'Montserrat', sans-serif;
@@ -30,6 +30,8 @@
             color: var(--cor-texto);
             margin: 0;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         header {
@@ -41,45 +43,45 @@
 
         header h1 {
             margin: 0;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 500;
             letter-spacing: 0.5px;
         }
 
         main {
-            padding: 3rem;
-            max-width: 1500px;
+            padding: 3.5rem;
+            max-width: 1600px;
             margin: 0 auto;
         }
 
         h2 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 600;
             color: var(--cor-primaria);
             border-bottom: 2px solid var(--cor-secundaria);
             padding-bottom: 1rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
         }
 
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 3rem;
         }
 
         .card {
             background-color: var(--cor-branco);
             border-radius: 16px;
             box-shadow: var(--sombra-card);
-            padding: 2.5rem;
+            padding: 2.5rem 3rem;
             transition: transform 0.35s ease, box-shadow 0.35s ease;
-            border: 1px solid #e9ecef;
+            border: 1px solid #f0f0f0;
             opacity: 0;
-            animation: fadeIn 0.6s ease-out forwards;
+            animation: fadeIn 0.7s ease-out forwards;
         }
 
         .card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-12px);
             box-shadow: var(--sombra-card-hover);
         }
         
@@ -98,29 +100,30 @@
         }
         
         .card-header .icon {
-            font-size: 2rem;
-            color: var(--cor-secundaria);
+            width: 28px;
+            height: 28px;
+            fill: var(--cor-secundaria);
         }
 
         .card h3 {
             margin: 0;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 600;
         }
 
         .metric, .sub-metric {
             font-weight: 700;
-            animation: countUp 0.8s ease-out forwards;
-            animation-delay: 0.5s;
+            animation: countUp 0.9s ease-out forwards;
+            animation-delay: 0.6s;
             opacity: 0;
         }
 
-        .metric { font-size: 3.5rem; }
-        .sub-metric { font-size: 2.75rem; }
+        .metric { font-size: 3.8rem; }
+        .sub-metric { font-size: 3rem; }
 
         small {
             color: #6c757d;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
         .card a {
@@ -128,6 +131,8 @@
             text-decoration: none;
             font-weight: 600;
             transition: color 0.2s;
+            display: inline-block;
+            margin-top: 1rem;
         }
 
         .card a:hover {
@@ -135,9 +140,8 @@
         }
 
         .text-sucesso { color: var(--cor-sucesso); }
-        .text-alerta { color: var(--cor-alerta); }
+        .text-alerta { color: var(--cor-secundaria); } /* Usando dourado para alerta */
         .text-perigo { color: var(--cor-perigo); }
-        .text-dourado { color: var(--cor-secundaria); }
 
     </style>
 </head>
@@ -153,15 +157,15 @@
             <div class="dashboard-grid">
                 <div class="card">
                     <div class="card-header">
-                        <span class="icon">⭐</span>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                         <h3>Nota Média da Rede</h3>
                     </div>
-                    <p class="metric text-alerta">4.1 ★</p>
-                    <small>Baseado em 1.834 reviews públicos</small>
+                    <p class="metric text-alerta">4.1</p>
+                    <small>Baseado em 1.834 reviews</small>
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <span class="icon">📈</span>
+                        <svg class="icon" xmlns="http://www.wf.org/2000/svg" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 17.08z"/></svg>
                         <h3>Sentimento Geral</h3>
                     </div>
                     <p class="metric text-sucesso">78%</p>
@@ -169,7 +173,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <span class="icon">💰</span>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-9h4v2h-4v-2zm-2 4h8v2H8v-2zm4-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
                         <h3>Oportunidade de Receita</h3>
                     </div>
                     <p class="metric text-sucesso">+R$ 1.2M</p>
@@ -178,7 +182,7 @@
             </div>
         </section>
 
-        <section id="unidades" style="margin-top: 4rem;">
+        <section id="unidades" style="margin-top: 4.5rem;">
             <h2>Performance por Unidade</h2>
             <div class="dashboard-grid">
                 <div class="card">
