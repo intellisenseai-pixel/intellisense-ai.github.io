@@ -7,10 +7,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --cor-fundo: #f9f9f9; --cor-primaria: #002d4b; --cor-secundaria: #b59247; --cor-texto: #343a40;
-            --cor-sucesso: #28a745; --cor-alerta: #ffc107; --cor-perigo: #dc3545; --cor-branco: #ffffff;
+            --cor-sucesso: #28a745; --cor-alerta: #ffc107; --cor-perigo: #dc3545; --cor-branco: #ffffff; --cor-neutra: #adb5bd;
             --sombra-card: 0 7px 25px rgba(0, 45, 75, 0.08 ); --sombra-card-hover: 0 15px 35px rgba(0, 45, 75, 0.15);
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
@@ -21,7 +22,7 @@
         main { padding: 3.5rem; max-width: 1600px; margin: 0 auto; }
         h2 { font-size: 2.2rem; font-weight: 600; color: var(--cor-primaria); border-bottom: 2px solid var(--cor-secundaria); padding-bottom: 1rem; margin-bottom: 3rem; }
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 3rem; }
-        .card { background-color: var(--cor-branco); border-radius: 16px; box-shadow: var(--sombra-card); padding: 2.5rem 3rem; transition: transform 0.35s ease, box-shadow 0.35s ease; border: 1px solid #f0f0f0; opacity: 0; animation: fadeIn 0.7s ease-out forwards; }
+        .card { background-color: var(--cor-branco); border-radius: 16px; box-shadow: var(--sombra-card); padding: 2.5rem 3rem; transition: transform 0.35s ease, box-shadow 0.35s ease; border: 1px solid #f0f0f0; opacity: 0; animation: fadeIn 0.7s ease-out forwards; cursor: pointer; }
         .card:hover { transform: translateY(-12px); box-shadow: var(--sombra-card-hover); }
         .card:nth-child(1) { animation-delay: 0.1s; } .card:nth-child(2) { animation-delay: 0.2s; } .card:nth-child(3) { animation-delay: 0.3s; }
         .card:nth-child(4) { animation-delay: 0.4s; } .card:nth-child(5) { animation-delay: 0.5s; } .card:nth-child(6) { animation-delay: 0.6s; } .card:nth-child(7) { animation-delay: 0.7s; }
@@ -31,7 +32,7 @@
         .metric, .sub-metric { font-weight: 700; animation: countUp 0.9s ease-out forwards; animation-delay: 0.6s; opacity: 0; }
         .metric { font-size: 3.8rem; } .sub-metric { font-size: 3rem; }
         small { color: #6c757d; font-size: 0.95rem; }
-        .card a { color: var(--cor-secundaria); text-decoration: none; font-weight: 600; transition: color 0.2s; display: inline-block; margin-top: 1rem; cursor: pointer; }
+        .card a { color: var(--cor-secundaria); text-decoration: none; font-weight: 600; transition: color 0.2s; display: inline-block; margin-top: 1rem; }
         .card a:hover { color: var(--cor-primaria); }
         .text-sucesso { color: var(--cor-sucesso); } .text-alerta { color: var(--cor-secundaria); } .text-perigo { color: var(--cor-perigo); }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 45, 75, 0.7); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease; z-index: 1000; }
@@ -57,9 +58,9 @@
         <section id="visao-geral">
             <h2>Visão Geral da Rede</h2>
             <div class="dashboard-grid">
-                <div class="card"><div class="card-header"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><h3>Nota Média da Rede</h3></div><p class="metric text-alerta">4.2</p><small>Baseado em 2.417 reviews</small></div>
-                <div class="card"><div class="card-header"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 17.08z"/></svg><h3>Sentimento Geral</h3></div><p class="metric text-sucesso">81%</p><small>Positivo</small></div>
-                <div class="card"><div class="card-header"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-9h4v2h-4v-2zm-2 4h8v2H8v-2zm4-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg><h3>Oportunidade de Receita</h3></div><p class="metric text-sucesso">+R$ 1.8M</p><small>Potencial anual ao atingir nota 4.6</small></div>
+                <div class="card" onclick="abrirModal('notaMedia')"><div class="card-header"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><h3>Nota Média da Rede</h3></div><p class="metric text-alerta">4.2</p><small>Baseado em 2.417 reviews</small></div>
+                <div class="card" onclick="abrirModal('sentimentoGeral' )"><div class="card-header"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 17.08z"/></svg><h3>Sentimento Geral</h3></div><p class="metric text-sucesso">81%</p><small>Positivo</small></div>
+                <div class="card" onclick="abrirModal('oportunidadeReceita' )"><div class="card-header"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-9h4v2h-4v-2zm-2 4h8v2H8v-2zm4-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg><h3>Oportunidade de Receita</h3></div><p class="metric text-sucesso">+R$ 1.8M</p><small>Potencial anual ao atingir nota 4.6</small></div>
             </div>
         </section>
         <section id="unidades" style="margin-top: 4.5rem;">
@@ -74,62 +75,44 @@
     </main>
     <div class="modal-overlay" id="modal-overlay"><div class="modal-container" id="modal-container"></div></div>
     <script>
+        let currentChart = null;
         const dadosUnidades = {
-            petropolis: {
-                titulo: "Análise: Kastel Petrópolis",
-                resumo: { fortes: ["Localização central", "Café da manhã elogiado", "Charme histórico"], fracos: ["Quartos precisam de modernização", "Barulho da rua", "Wi-Fi inconstante"] },
-                sentimento: { reviewPositivo: "A localização é simplesmente perfeita, no coração de tudo. O café da manhã foi um dos melhores que já tivemos, com muita variedade e qualidade.", reviewNegativo: "O hotel é lindo, mas o quarto era muito antigo. O chuveiro não esquentava direito e o barulho da rua à noite atrapalhou nosso sono." },
-                oportunidades: { reprecificacao: "Aumentar a nota de 4.2 para 4.6 pode justificar um aumento de 15% na diária, gerando +R$ 450k/ano.", upselling: "18% dos reviews mencionam 'quarto antigo'. Oferecer um 'Upgrade para Suíte Imperial' no momento da reserva poderia capturar +R$ 200k/ano." }
-            },
-            recife: {
-                titulo: "Análise: Kastel Recife",
-                resumo: { fortes: ["Vista para o mar", "Área da piscina", "Proximidade com feirinha"], fracos: ["Atendimento na recepção", "Mobiliário desgastado", "Cardápio limitado"] },
-                sentimento: { reviewPositivo: "A vista do nosso quarto era de tirar o fôlego! Passamos a maior parte do tempo na piscina, que é ótima.", reviewNegativo: "Ficamos mais de 30 minutos para fazer o check-in. O pessoal da recepção parecia perdido. O quarto era espaçoso, mas os móveis estavam velhos." },
-                oportunidades: { reprecificacao: "Aumentar a nota de 4.0 para 4.4 pode justificar um aumento de 12% na diária, gerando +R$ 350k/ano.", upselling: "25% dos reviews mencionam 'atendimento lento'. Oferecer um 'Check-in Expresso VIP' por uma pequena taxa poderia gerar +R$ 100k/ano e melhorar a percepção." }
-            },
-            buzios: {
-                titulo: "Análise: Kastel Búzios",
-                resumo: { fortes: ["Design e elegância", "Piscina com borda infinita", "Gastronomia de alto nível"], fracos: ["Serviço lento em alta temporada", "Preços de bebidas elevados", "Distância da Rua das Pedras"] },
-                sentimento: { reviewPositivo: "Que hotel! O lugar é um sonho, cada detalhe pensado. A piscina é o ponto alto. Perfeito para relaxar com estilo.", reviewNegativo: "Pelo preço que pagamos, esperávamos um serviço mais ágil. Demorou 40 minutos para um drink chegar na piscina. Fica um pouco longe do centro, precisa de carro para tudo." },
-                oportunidades: { reprecificacao: "A nota 4.5 já permite uma tarifa premium. O foco é proteger a margem com reservas diretas, economizando +R$ 600k/ano em comissões.", upselling: "Criar 'Pacotes de Experiência Romântica' (jantar + espumante + massagem) para aumentar o ticket médio em 25%." }
-            },
-            joaopessoa: {
-                titulo: "Análise: Kastel João Pessoa",
-                resumo: { fortes: ["Custo-benefício", "Cultura local autêntica", "Proximidade com o aeroporto"], fracos: ["Infraestrutura do hotel simples", "Praia em frente não é ideal para banho", "Opções de lazer limitadas"] },
-                sentimento: { reviewPositivo: "Ótimo hotel pelo preço. Simples, mas limpo e com uma equipe muito simpática que nos deu ótimas dicas de passeios.", reviewNegativo: "Achei que o hotel seria mais 'pé na areia', mas a praia em frente é um pouco suja. A piscina é pequena e não há muito o que fazer no hotel à noite." },
-                oportunidades: { reprecificacao: "Aumentar a nota de 4.1 para 4.4 pode justificar um aumento de 10% na diária, gerando +R$ 250k/ano.", upselling: "Vender 'Passeios Culturais Exclusivos' (parceria com guias locais) diretamente no fluxo de reserva para agregar valor e receita." }
-            }
+            petropolis: { titulo: "Análise: Kastel Petrópolis", resumo: { fortes: ["Localização central", "Café da manhã elogiado", "Charme histórico"], fracos: ["Quartos precisam de modernização", "Barulho da rua", "Wi-Fi inconstante"] }, sentimento: { reviewPositivo: "A localização é simplesmente perfeita, no coração de tudo. O café da manhã foi um dos melhores que já tivemos, com muita variedade e qualidade.", reviewNegativo: "O hotel é lindo, mas o quarto era muito antigo. O chuveiro não esquentava direito e o barulho da rua à noite atrapalhou nosso sono." }, oportunidades: { reprecificacao: "Aumentar a nota de 4.2 para 4.6 pode justificar um aumento de 15% na diária, gerando +R$ 450k/ano.", upselling: "18% dos reviews mencionam 'quarto antigo'. Oferecer um 'Upgrade para Suíte Imperial' no momento da reserva poderia capturar +R$ 200k/ano." } },
+            recife: { titulo: "Análise: Kastel Recife", resumo: { fortes: ["Vista para o mar", "Área da piscina", "Proximidade com feirinha"], fracos: ["Atendimento na recepção", "Mobiliário desgastado", "Cardápio limitado"] }, sentimento: { reviewPositivo: "A vista do nosso quarto era de tirar o fôlego! Passamos a maior parte do tempo na piscina, que é ótima.", reviewNegativo: "Ficamos mais de 30 minutos para fazer o check-in. O pessoal da recepção parecia perdido. O quarto era espaçoso, mas os móveis estavam velhos." }, oportunidades: { reprecificacao: "Aumentar a nota de 4.0 para 4.4 pode justificar um aumento de 12% na diária, gerando +R$ 350k/ano.", upselling: "25% dos reviews mencionam 'atendimento lento'. Oferecer um 'Check-in Expresso VIP' por uma pequena taxa poderia gerar +R$ 100k/ano e melhorar a percepção." } },
+            buzios: { titulo: "Análise: Kastel Búzios", resumo: { fortes: ["Design e elegância", "Piscina com borda infinita", "Gastronomia de alto nível"], fracos: ["Serviço lento em alta temporada", "Preços de bebidas elevados", "Distância da Rua das Pedras"] }, sentimento: { reviewPositivo: "Que hotel! O lugar é um sonho, cada detalhe pensado. A piscina é o ponto alto. Perfeito para relaxar com estilo.", reviewNegativo: "Pelo preço que pagamos, esperávamos um serviço mais ágil. Demorou 40 minutos para um drink chegar na piscina. Fica um pouco longe do centro, precisa de carro para tudo." }, oportunidades: { reprecificacao: "A nota 4.5 já permite uma tarifa premium. O foco é proteger a margem com reservas diretas, economizando +R$ 600k/ano em comissões.", upselling: "Criar 'Pacotes de Experiência Romântica' (jantar + espumante + massagem) para aumentar o ticket médio em 25%." } },
+            joaopessoa: { titulo: "Análise: Kastel João Pessoa", resumo: { fortes: ["Custo-benefício", "Cultura local autêntica", "Proximidade com o aeroporto"], fracos: ["Infraestrutura do hotel simples", "Praia em frente não é ideal para banho", "Opções de lazer limitadas"] }, sentimento: { reviewPositivo: "Ótimo hotel pelo preço. Simples, mas limpo e com uma equipe muito simpática que nos deu ótimas dicas de passeios.", reviewNegativo: "Achei que o hotel seria mais 'pé na areia', mas a praia em frente é um pouco suja. A piscina é pequena e não há muito o que fazer no hotel à noite." }, oportunidades: { reprecificacao: "Aumentar a nota de 4.1 para 4.4 pode justificar um aumento de 10% na diária, gerando +R$ 250k/ano.", upselling: "Vender 'Passeios Culturais Exclusivos' (parceria com guias locais) diretamente no fluxo de reserva para agregar valor e receita." } }
         };
         const modalOverlay = document.getElementById('modal-overlay');
         const modalContainer = document.getElementById('modal-container');
-        function abrirModal(unidadeId) {
-            const dados = dadosUnidades[unidadeId];
-            if (!dados) return;
-            let conteudoHTML = `
-                <div class="modal-header"><h2>${dados.titulo}</h2><button class="modal-close" onclick="fecharModal()">&times;</button></div>
-                <div class="modal-tabs">
-                    <button class="tab-button active" onclick="mudarAba(event, 'resumo')">Resumo</button>
-                    <button class="tab-button" onclick="mudarAba(event, 'sentimento')">Análise de Sentimento</button>
-                    <button class="tab-button" onclick="mudarAba(event, 'oportunidades')">Oportunidades de Receita</button>
-                </div>
-                <div class="modal-body">
-                    <div id="resumo" class="tab-content active">
-                        <h3>Pontos Fortes Identificados</h3><ul>${dados.resumo.fortes.map(p => `<li>${p}</li>`).join('')}</ul>
-                        <h3>Pontos de Melhoria (Oportunidades)</h3><ul>${dados.resumo.fracos.map(p => `<li>${p}</li>`).join('')}</ul>
-                    </div>
-                    <div id="sentimento" class="tab-content">
-                        <h3>Exemplos de Análise de Sentimento</h3>
-                        <div class="review positive"><p>"${dados.sentimento.reviewPositivo}"</p></div>
-                        <div class="review negative"><p>"${dados.sentimento.reviewNegativo}"</p></div>
-                    </div>
-                    <div id="oportunidades" class="tab-content">
-                        <h3>Oportunidades Estratégicas</h3>
-                        <div class="card" style="margin-bottom: 1.5rem;"><h4>Reprecificação</h4><p>${dados.oportunidades.reprecificacao}</p></div>
-                        <div class="card"><h4>Upselling Inteligente</h4><p>${dados.oportunidades.upselling}</p></div>
-                    </div>
-                </div>`;
+        function abrirModal(id) {
+            if (currentChart) { currentChart.destroy(); }
+            const dados = dadosUnidades[id];
+            let conteudoHTML = '';
+            if(dados) { // Modal de Unidade
+                conteudoHTML = `<div class="modal-header"><h2>${dados.titulo}</h2><button class="modal-close" onclick="fecharModal()">&times;</button></div><div class="modal-tabs"><button class="tab-button active" onclick="mudarAba(event, 'resumo')">Resumo</button><button class="tab-button" onclick="mudarAba(event, 'sentimento')">Análise de Sentimento</button><button class="tab-button" onclick="mudarAba(event, 'oportunidades')">Oportunidades de Receita</button></div><div class="modal-body"><div id="resumo" class="tab-content active"><h3>Pontos Fortes</h3><ul>${dados.resumo.fortes.map(p => `<li>${p}</li>`).join('')}</ul><h3>Pontos de Melhoria</h3><ul>${dados.resumo.fracos.map(p => `<li>${p}</li>`).join('')}</ul></div><div id="sentimento" class="tab-content"><h3>Exemplos de Análise</h3><div class="review positive"><p>"${dados.sentimento.reviewPositivo}"</p></div><div class="review negative"><p>"${dados.sentimento.reviewNegativo}"</p></div></div><div id="oportunidades" class="tab-content"><h3>Oportunidades Estratégicas</h3><div class="card" style="margin-bottom:1.5rem"><h4>Reprecificação</h4><p>${dados.oportunidades.reprecificacao}</p></div><div class="card"><h4>Upselling Inteligente</h4><p>${dados.oportunidades.upselling}</p></div></div></div>`;
+            } else { // Modais da Visão Geral
+                let chartHTML = '<canvas id="chart"></canvas>';
+                let titulo = '';
+                if(id === 'notaMedia') { titulo = 'Evolução da Nota Média (Simulado)'; }
+                if(id === 'sentimentoGeral') { titulo = 'Distribuição de Sentimento'; }
+                if(id === 'oportunidadeReceita') { titulo = 'Projeção de Receita'; }
+                conteudoHTML = `<div class="modal-header"><h2>${titulo}</h2><button class="modal-close" onclick="fecharModal()">&times;</button></div><div class="modal-body">${chartHTML}</div>`;
+            }
             modalContainer.innerHTML = conteudoHTML;
             modalOverlay.classList.add('active');
+            
+            if(!dados) { // Renderiza o gráfico se não for modal de unidade
+                const ctx = document.getElementById('chart').getContext('2d');
+                if (id === 'notaMedia') {
+                    currentChart = new Chart(ctx, { type: 'line', data: { labels: ['Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'], datasets: [{ label: 'Nota Média', data: [4.0, 4.1, 4.0, 4.2, 4.1, 4.2], borderColor: 'var(--cor-secundaria)', tension: 0.4, fill: true, backgroundColor: 'rgba(181, 146, 71, 0.1)' }] }, options: { responsive: true } });
+                }
+                if (id === 'sentimentoGeral') {
+                    currentChart = new Chart(ctx, { type: 'doughnut', data: { labels: ['Positivo', 'Neutro', 'Negativo'], datasets: [{ data: [81, 12, 7], backgroundColor: ['var(--cor-sucesso)', 'var(--cor-neutra)', 'var(--cor-perigo)'] }] }, options: { responsive: true, cutout: '70%' } });
+                }
+                if (id === 'oportunidadeReceita') {
+                    currentChart = new Chart(ctx, { type: 'bar', data: { labels: ['Receita Atual (Estimada)', 'Receita Potencial'], datasets: [{ label: 'Receita Anual (em Milhões R$)', data: [12.5, 14.3], backgroundColor: ['var(--cor-neutra)', 'var(--cor-sucesso)'] }] }, options: { responsive: true, indexAxis: 'y' } });
+                }
+            }
         }
         function fecharModal() { modalOverlay.classList.remove('active'); }
         function mudarAba(event, abaId) {
