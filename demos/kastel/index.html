@@ -75,6 +75,10 @@
     </main>
     <div class="modal-overlay" id="modal-overlay"><div class="modal-container" id="modal-container"></div></div>
     <script>
+        // Configurações globais para todos os gráficos
+        Chart.defaults.font.family = "'Montserrat', sans-serif";
+        Chart.defaults.color = '#343a40';
+
         let currentChart = null;
         const dadosUnidades = {
             petropolis: { titulo: "Análise: Kastel Petrópolis", resumo: { fortes: ["Localização central", "Café da manhã elogiado", "Charme histórico"], fracos: ["Quartos precisam de modernização", "Barulho da rua", "Wi-Fi inconstante"] }, sentimento: { reviewPositivo: "A localização é simplesmente perfeita, no coração de tudo. O café da manhã foi um dos melhores que já tivemos, com muita variedade e qualidade.", reviewNegativo: "O hotel é lindo, mas o quarto era muito antigo. O chuveiro não esquentava direito e o barulho da rua à noite atrapalhou nosso sono." }, oportunidades: { reprecificacao: "Aumentar a nota de 4.2 para 4.6 pode justificar um aumento de 15% na diária, gerando +R$ 450k/ano.", upselling: "18% dos reviews mencionam 'quarto antigo'. Oferecer um 'Upgrade para Suíte Imperial' no momento da reserva poderia capturar +R$ 200k/ano." } },
@@ -103,14 +107,15 @@
             
             if(!dados) { // Renderiza o gráfico se não for modal de unidade
                 const ctx = document.getElementById('chart').getContext('2d');
+                const cssVars = getComputedStyle(document.documentElement);
                 if (id === 'notaMedia') {
-                    currentChart = new Chart(ctx, { type: 'line', data: { labels: ['Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'], datasets: [{ label: 'Nota Média', data: [4.0, 4.1, 4.0, 4.2, 4.1, 4.2], borderColor: 'var(--cor-secundaria)', tension: 0.4, fill: true, backgroundColor: 'rgba(181, 146, 71, 0.1)' }] }, options: { responsive: true } });
+                    currentChart = new Chart(ctx, { type: 'line', data: { labels: ['Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'], datasets: [{ label: 'Nota Média', data: [4.0, 4.1, 4.0, 4.2, 4.1, 4.2], borderColor: cssVars.getPropertyValue('--cor-secundaria'), tension: 0.4, fill: true, backgroundColor: 'rgba(181, 146, 71, 0.1)' }] }, options: { responsive: true, plugins: { legend: { labels: { color: cssVars.getPropertyValue('--cor-texto') } } }, scales: { x: { ticks: { color: cssVars.getPropertyValue('--cor-texto') } }, y: { ticks: { color: cssVars.getPropertyValue('--cor-texto') } } } } });
                 }
                 if (id === 'sentimentoGeral') {
-                    currentChart = new Chart(ctx, { type: 'doughnut', data: { labels: ['Positivo', 'Neutro', 'Negativo'], datasets: [{ data: [81, 12, 7], backgroundColor: ['var(--cor-sucesso)', 'var(--cor-neutra)', 'var(--cor-perigo)'] }] }, options: { responsive: true, cutout: '70%' } });
+                    currentChart = new Chart(ctx, { type: 'doughnut', data: { labels: ['Positivo', 'Neutro', 'Negativo'], datasets: [{ data: [81, 12, 7], backgroundColor: [cssVars.getPropertyValue('--cor-sucesso'), cssVars.getPropertyValue('--cor-neutra'), cssVars.getPropertyValue('--cor-perigo')], borderWidth: 0 }] }, options: { responsive: true, cutout: '70%', plugins: { legend: { labels: { color: cssVars.getPropertyValue('--cor-texto') } } } } });
                 }
                 if (id === 'oportunidadeReceita') {
-                    currentChart = new Chart(ctx, { type: 'bar', data: { labels: ['Receita Atual (Estimada)', 'Receita Potencial'], datasets: [{ label: 'Receita Anual (em Milhões R$)', data: [12.5, 14.3], backgroundColor: ['var(--cor-neutra)', 'var(--cor-sucesso)'] }] }, options: { responsive: true, indexAxis: 'y' } });
+                    currentChart = new Chart(ctx, { type: 'bar', data: { labels: ['Receita Atual (Estimada)', 'Receita Potencial'], datasets: [{ label: 'Receita Anual (em Milhões R$)', data: [12.5, 14.3], backgroundColor: [cssVars.getPropertyValue('--cor-neutra'), cssVars.getPropertyValue('--cor-sucesso')] }] }, options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { ticks: { color: cssVars.getPropertyValue('--cor-texto') } }, y: { ticks: { color: cssVars.getPropertyValue('--cor-texto') } } } } });
                 }
             }
         }
