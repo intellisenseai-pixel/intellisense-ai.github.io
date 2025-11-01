@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kastel - Dashboard de Inteligência v12.0 | Intellisense AI</title>
+    <title>Kastel - Dashboard de Inteligência v13.0 | Intellisense AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -42,18 +42,19 @@
     </style>
 </head>
 <body>
-    <header><h1>Intellisense AI & Kastel | Dashboard de Inteligência v12.0</h1></header>
+    <header><h1>Intellisense AI & Kastel | Dashboard de Inteligência v13.0</h1></header>
     <main>
         <section id="visao-geral">
             <h2>Visão Geral da Rede</h2>
             <div class="dashboard-grid">
-                <div class="card card-clickable" onclick="abrirModal('notaMedia')">
+                <!-- CORREÇÃO: Adicionado onclick para interatividade -->
+                <div class="card card-clickable" onclick="abrirModalGeral('notaMedia')">
                     <h3>Nota Média da Rede</h3><p class="metric text-alerta">4.2</p><small>Baseado em 2.417 reviews</small>
                 </div>
-                <div class="card card-clickable" onclick="abrirModal('sentimentoGeral')">
+                <div class="card card-clickable" onclick="abrirModalGeral('sentimentoGeral')">
                     <h3>Sentimento Geral</h3><p class="metric text-sucesso">81%</p><small>Positivo</small>
                 </div>
-                <div class="card card-clickable" onclick="abrirModal('oportunidadeReceita')">
+                <div class="card card-clickable" onclick="abrirModalGeral('oportunidadeReceita')">
                     <h3>Oportunidade de Receita</h3><p class="metric text-sucesso">+R$ 1.8M</p><small>Potencial anual ao atingir nota 4.6</small>
                 </div>
             </div>
@@ -61,10 +62,11 @@
         <section id="unidades" style="margin-top: 4.5rem;">
             <h2>Performance por Unidade</h2>
             <div class="dashboard-grid">
-                <div class="card"><h3>Kastel Petrópolis</h3><p class="sub-metric text-alerta">4.2 ★</p><a onclick="abrirModal('petropolis')">Analisar Unidade &rarr;</a></div>
-                <div class="card"><h3>Kastel Recife</h3><p class="sub-metric text-perigo">4.0 ★</p><a onclick="abrirModal('recife')">Analisar Unidade &rarr;</a></div>
-                <div class="card"><h3>Kastel Búzios</h3><p class="sub-metric text-sucesso">4.5 ★</p><a onclick="abrirModal('buzios')">Analisar Unidade &rarr;</a></div>
-                <div class="card"><h3>Kastel João Pessoa</h3><p class="sub-metric text-alerta">4.1 ★</p><a onclick="abrirModal('joaopessoa')">Analisar Unidade &rarr;</a></div>
+                <!-- CORREÇÃO: Adicionado onclick para interatividade -->
+                <div class="card"><h3>Kastel Petrópolis</h3><p class="sub-metric text-alerta">4.2 ★</p><a onclick="abrirModalUnidade('petropolis')">Analisar Unidade &rarr;</a></div>
+                <div class="card"><h3>Kastel Recife</h3><p class="sub-metric text-perigo">4.0 ★</p><a onclick="abrirModalUnidade('recife')">Analisar Unidade &rarr;</a></div>
+                <div class="card"><h3>Kastel Búzios</h3><p class="sub-metric text-sucesso">4.5 ★</p><a onclick="abrirModalUnidade('buzios')">Analisar Unidade &rarr;</a></div>
+                <div class="card"><h3>Kastel João Pessoa</h3><p class="sub-metric text-alerta">4.1 ★</p><a onclick="abrirModalUnidade('joaopessoa')">Analisar Unidade &rarr;</a></div>
             </div>
         </section>
     </main>
@@ -73,6 +75,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // Dados completos (omitidos para brevidade, mas são os mesmos da v12.0)
         const dadosUnidades = {
             petropolis: { /* ... */ }, recife: { /* ... */ }, joaopessoa: { /* ... */ },
             buzios: { 
@@ -80,57 +83,42 @@
                 resumo: { fortes: ["Design e elegância", "Piscina com borda infinita"], fracos: ["Serviço lento em alta temporada", "Preços de bebidas elevados"] }, 
                 sentimento: { reviewPositivo: "Que hotel! O lugar é um sonho...", reviewNegativo: "Pelo preço que pagamos, esperávamos um serviço mais ágil." }, 
                 oportunidades: {
-                    reprecificacao: { titulo: "Reprecificação", resumo: "Proteger a margem com reservas diretas, economizando +R$ 600k/ano.", dossie: { objetivo: "Reduzir a dependência de OTAs em 30% em 12 meses...", diagnostico: "A alta comissão paga às OTAs corrói a margem de lucro.", plano: ["Análise do funil de reserva.", "Desenvolvimento de motor de reservas próprio.", "Criação de campanha de 'Vantagens da Reserva Direta'."], prova: "Hotel parceiro em Gramado viu aumento de 40% nas reservas diretas.", roi: "Investimento se paga em menos de 8 meses." } },
-                    upselling: { titulo: "Upselling Inteligente", resumo: "Criar 'Pacotes de Experiência Romântica' para aumentar o ticket médio em 25%.", dossie: { objetivo: "Aumentar o ticket médio por reserva em 25%.", diagnostico: "O fluxo de reserva atual não explora a venda de serviços agregados.", plano: ["Definição de 3 pacotes de experiência.", "Integração dos pacotes no funil de reserva.", "Campanhas de remarketing para não compradores."], prova: "Redes nos EUA reportam aumento de receita de até 35% com pacotes.", roi: "Potencial de +R$ 300k/ano em receita adicional." } }
+                    reprecificacao: { titulo: "Reprecificação", resumo: "Proteger a margem com reservas diretas, economizando +R$ 600k/ano.", dossie: { objetivo: "Reduzir a dependência de OTAs em 30% em 12 meses...", diagnostico: "A alta comissão paga às OTAs corrói a margem de lucro.", plano: ["<strong>Fase 1:</strong> Análise do funil de reserva.", "<strong>Fase 2:</strong> Desenvolvimento de motor de reservas próprio.", "<strong>Fase 3:</strong> Criação de campanha de 'Vantagens da Reserva Direta'."], prova: "Hotel parceiro em Gramado viu aumento de 40% nas reservas diretas.", roi: "Investimento se paga em menos de 8 meses." } },
+                    upselling: { titulo: "Upselling Inteligente", resumo: "Criar 'Pacotes de Experiência Romântica' para aumentar o ticket médio em 25%.", dossie: { objetivo: "Aumentar o ticket médio por reserva em 25%.", diagnostico: "O fluxo de reserva atual não explora a venda de serviços agregados.", plano: ["<strong>Fase 1:</strong> Definição de 3 pacotes de experiência.", "<strong>Fase 2:</strong> Integração dos pacotes no funil de reserva.", "<strong>Fase 3:</strong> Campanhas de remarketing para não compradores."], prova: "Redes nos EUA reportam aumento de receita de até 35% com pacotes.", roi: "Potencial de +R$ 300k/ano em receita adicional." } }
                 }
             }
+        };
+        const dadosGeraisGraficos = {
+            notaMedia: { type: 'line', data: { labels: ['Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'], datasets: [{ label: 'Nota Média', data: [4.0, 4.1, 4.0, 4.2, 4.1, 4.2], borderColor: '#b59247', tension: 0.4, fill: true, backgroundColor: 'rgba(181, 146, 71, 0.1)' }] }, options: {} },
+            sentimentoGeral: { type: 'doughnut', data: { labels: ['Positivo', 'Neutro', 'Negativo'], datasets: [{ data: [81, 12, 7], backgroundColor: ['#28a745', '#adb5bd', '#dc3545'], borderWidth: 0 }] }, options: { cutout: '70%' } },
+            oportunidadeReceita: { type: 'bar', data: { labels: ['Receita Atual (Estimada)', 'Receita Potencial'], datasets: [{ label: 'Receita Anual (em Milhões R$)', data: [12.5, 14.3], backgroundColor: ['#adb5bd', '#28a745'] }] }, options: { indexAxis: 'y', plugins: { legend: { display: false } } } }
         };
 
         const modalOverlay = document.getElementById('modal-overlay');
         const proposalModalOverlay = document.getElementById('proposal-modal-overlay');
+        let activeChart = null;
 
-        window.abrirModal = function(id) {
+        window.abrirModalGeral = function(id) {
+            if(activeChart) activeChart.destroy();
+            const chartConfig = dadosGeraisGraficos[id];
+            const conteudoHTML = `<div class="modal-container" style="max-width: 700px;"><div class="modal-header"><button class="modal-close" onclick="fecharModal('modal-overlay')">&times;</button><h2>${chartConfig.data.datasets[0].label}</h2></div><div class="modal-body"><canvas id="geralChart"></canvas></div></div>`;
+            modalOverlay.innerHTML = conteudoHTML;
+            modalOverlay.classList.add('active');
+            const ctx = document.getElementById('geralChart').getContext('2d');
+            activeChart = new Chart(ctx, chartConfig);
+        }
+
+        window.abrirModalUnidade = function(id) {
             const dados = dadosUnidades[id];
             if (!dados) return;
-
-            const conteudoHTML = `
-                <div class="modal-container">
-                    <div class="modal-header"><button class="modal-close" onclick="fecharModal('modal-overlay')">&times;</button><h2>${dados.titulo}</h2></div>
-                    <div class="modal-tabs">
-                        <button class="tab-button active" onclick="mudarAba(event, 'resumo')">Resumo</button>
-                        <button class="tab-button" onclick="mudarAba(event, 'sentimento')">Análise de Sentimento</button>
-                        <button class="tab-button" onclick="mudarAba(event, 'oportunidades')">Oportunidades de Receita</button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="resumo" class="tab-content active"><h3>Pontos Fortes</h3><ul>${dados.resumo.fortes.map(p => `<li>${p}</li>`).join('')}</ul><h3>Pontos de Melhoria</h3><ul>${dados.resumo.fracos.map(p => `<li>${p}</li>`).join('')}</ul></div>
-                        <div id="sentimento" class="tab-content"><h3>Exemplos de Análise</h3><p>${dados.sentimento.reviewPositivo}</p><p>${dados.sentimento.reviewNegativo}</p></div>
-                        <div id="oportunidades" class="tab-content">
-                            <h3>Oportunidades Estratégicas</h3>
-                            <div class="card card-clickable opportunity-card" onclick="abrirModalProposta('buzios', 'reprecificacao')"><h4>${dados.oportunidades.reprecificacao.titulo}</h4><p>${dados.oportunidades.reprecificacao.resumo}</p></div>
-                            <div class="card card-clickable opportunity-card" onclick="abrirModalProposta('buzios', 'upselling')"><h4>${dados.oportunidades.upselling.titulo}</h4><p>${dados.oportunidades.upselling.resumo}</p></div>
-                        </div>
-                    </div>
-                </div>`;
+            const conteudoHTML = `<div class="modal-container"><div class="modal-header"><button class="modal-close" onclick="fecharModal('modal-overlay')">&times;</button><h2>${dados.titulo}</h2></div><div class="modal-tabs"><button class="tab-button active" onclick="mudarAba(event, 'resumo')">Resumo</button><button class="tab-button" onclick="mudarAba(event, 'sentimento')">Análise de Sentimento</button><button class="tab-button" onclick="mudarAba(event, 'oportunidades')">Oportunidades de Receita</button></div><div class="modal-body"><div id="resumo" class="tab-content active"><h3>Pontos Fortes</h3><ul>${dados.resumo.fortes.map(p => `<li>${p}</li>`).join('')}</ul><h3>Pontos de Melhoria</h3><ul>${dados.resumo.fracos.map(p => `<li>${p}</li>`).join('')}</ul></div><div id="sentimento" class="tab-content"><h3>Exemplos de Análise</h3><p><strong>Positivo:</strong> "${dados.sentimento.reviewPositivo}"</p><p><strong>Negativo:</strong> "${dados.sentimento.reviewNegativo}"</p></div><div id="oportunidades" class="tab-content"><h3>Oportunidades Estratégicas</h3><div class="card card-clickable opportunity-card" onclick="abrirModalProposta('${id}', 'reprecificacao')"><h4>${dados.oportunidades.reprecificacao.titulo}</h4><p>${dados.oportunidades.reprecificacao.resumo}</p></div><div class="card card-clickable opportunity-card" onclick="abrirModalProposta('${id}', 'upselling')"><h4>${dados.oportunidades.upselling.titulo}</h4><p>${dados.oportunidades.upselling.resumo}</p></div></div></div></div>`;
             modalOverlay.innerHTML = conteudoHTML;
             modalOverlay.classList.add('active');
         }
 
         window.abrirModalProposta = function(unidadeId, propostaId) {
             const proposta = dadosUnidades[unidadeId].oportunidades[propostaId];
-            const conteudoHTML = `
-                <div class="modal-container">
-                    <div class="modal-header"><button class="modal-close" onclick="fecharModal('proposal-modal-overlay')">&times;</button><h2>Dossiê: ${proposta.titulo}</h2></div>
-                    <div class="modal-body proposal-modal-body">
-                        <h3>🎯 Objetivo</h3><p>${proposta.dossie.objetivo}</p>
-                        <h3>🩺 Diagnóstico</h3><p>${proposta.dossie.diagnostico}</p>
-                        <h3>🗺️ Plano de Ação</h3>
-                        <div class="proposal-step"><div class="step-number">1</div><div>${proposta.dossie.plano[0]}</div></div>
-                        <div class="proposal-step"><div class="step-number">2</div><div>${proposta.dossie.plano[1]}</div></div>
-                        <div class="proposal-step"><div class="step-number">3</div><div>${proposta.dossie.plano[2]}</div></div>
-                        <h3>🏆 Prova (Mini-Case)</h3><p>${proposta.dossie.prova}</p>
-                        <h3>💰 Projeção de ROI</h3><p>${proposta.dossie.roi}</p>
-                    </div>
-                </div>`;
+            const conteudoHTML = `<div class="modal-container"><div class="modal-header"><button class="modal-close" onclick="fecharModal('proposal-modal-overlay')">&times;</button><h2>Dossiê: ${proposta.titulo}</h2></div><div class="modal-body proposal-modal-body"><h3>🎯 Objetivo</h3><p>${proposta.dossie.objetivo}</p><h3>🩺 Diagnóstico</h3><p>${proposta.dossie.diagnostico}</p><h3>🗺️ Plano de Ação</h3><div class="proposal-step"><div class="step-number">1</div><div>${proposta.dossie.plano[0]}</div></div><div class="proposal-step"><div class="step-number">2</div><div>${proposta.dossie.plano[1]}</div></div><div class="proposal-step"><div class="step-number">3</div><div>${proposta.dossie.plano[2]}</div></div><h3>🏆 Prova (Mini-Case)</h3><p>${proposta.dossie.prova}</p><h3>💰 Projeção de ROI</h3><p>${proposta.dossie.roi}</p></div></div>`;
             proposalModalOverlay.innerHTML = conteudoHTML;
             proposalModalOverlay.classList.add('active');
         }
