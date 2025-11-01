@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kastel - Dashboard de Inteligência v21.0 | Intellisense AI</title>
+    <title>Kastel - Dashboard de Inteligência v16.0 | Intellisense AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* ESTILOS DA v16.0 + ADIÇÕES CIRÚRGICAS */
         :root { --cor-fundo: #f9f9f9; --cor-primaria: #002d4b; --cor-secundaria: #b59247; --cor-texto: #343a40; --cor-sucesso: #28a745; --cor-alerta: #ffc107; --cor-perigo: #dc3545; --cor-branco: #ffffff; --sombra-card: 0 7px 25px rgba(0, 45, 75, 0.08 ); --sombra-card-hover: 0 10px 30px rgba(0, 45, 75, 0.12); }
         body { font-family: 'Montserrat', sans-serif; background-color: var(--cor-fundo); color: var(--cor-texto); margin: 0; line-height: 1.6; }
         header { background-color: var(--cor-primaria); color: var(--cor-branco); padding: 1.5rem 3rem; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
         main { padding: 3.5rem; max-width: 1600px; margin: 0 auto; }
         h2 { font-size: 2.2rem; font-weight: 600; color: var(--cor-primaria); border-bottom: 2px solid var(--cor-secundaria); padding-bottom: 1rem; margin-bottom: 3rem; }
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 3rem; }
-        .card { background-color: var(--cor-branco); border-radius: 16px; box-shadow: var(--sombra-card); padding: 2.5rem 3rem; transition: transform 0.3s, box-shadow 0.3s; border: 1px solid #f0f0f0; position: relative; }
+        .card { background-color: var(--cor-branco); border-radius: 16px; box-shadow: var(--sombra-card); padding: 2.5rem 3rem; transition: transform 0.3s, box-shadow 0.3s; border: 1px solid #f0f0f0; }
         .card-clickable:hover { transform: translateY(-8px); box-shadow: var(--sombra-card-hover); cursor: pointer; }
         .card h3 { margin: 0; font-size: 1.25rem; font-weight: 600; }
         .metric { font-size: 3.8rem; font-weight: 700; }
@@ -41,56 +40,22 @@
         .review { border-left: 4px solid; padding-left: 1.5rem; margin: 1.5rem 0; font-style: italic; }
         .review.positive { border-color: var(--cor-sucesso); }
         .review.negative { border-color: var(--cor-perigo); }
-        .proposal-modal-body h3, .swot-modal-body h3 { color: var(--cor-primaria); border-bottom: 2px solid var(--cor-secundaria); padding-bottom: 0.5rem; margin-top: 2rem; margin-bottom: 1rem; font-size: 1.4rem; display: flex; align-items: center; gap: 0.8rem; }
-        .proposal-modal-body h3:first-child, .swot-modal-body h3:first-child { margin-top: 0; }
+        .proposal-modal-body h3 { color: var(--cor-primaria); border-bottom: 2px solid var(--cor-secundaria); padding-bottom: 0.5rem; margin-top: 2rem; margin-bottom: 1rem; font-size: 1.4rem; display: flex; align-items: center; gap: 0.8rem; }
+        .proposal-modal-body h3:first-child { margin-top: 0; }
         .proposal-step { display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 1rem; }
         .proposal-step .step-number { font-size: 2rem; font-weight: 700; color: var(--cor-secundaria); line-height: 1; }
         .dossie-icon { width: 24px; height: 24px; fill: var(--cor-secundaria); }
-        .swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
-        .swot-button { background: var(--cor-branco); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; border: 1px solid #eee; width: 100%; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
-        .swot-button:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-        .swot-button h4 { margin: 0; font-size: 1.1rem; display: flex; align-items: center; gap: 0.7rem; }
-        .swot-button .swot-icon { width: 20px; height: 20px; }
-        .swot-button.strengths h4 { color: var(--cor-sucesso); } .swot-button.strengths .swot-icon { fill: var(--cor-sucesso); }
-        .swot-button.weaknesses h4 { color: var(--cor-perigo); } .swot-button.weaknesses .swot-icon { fill: var(--cor-perigo); }
-        .swot-button.opportunities h4 { color: var(--cor-secundaria); } .swot-button.opportunities .swot-icon { fill: var(--cor-secundaria); }
-        .swot-button.threats h4 { color: #6c757d; } .swot-button.threats .swot-icon { fill: #6c757d; }
-        /* NOVOS ESTILOS PARA GRÁFICOS NOS CARDS */
-        .card-chart-container { position: absolute; bottom: 0; left: 0; right: 0; height: 60px; padding: 0 1rem 1rem 1rem; }
-        .card-chart { width: 100%; height: 100%; }
-        .card-chart-container canvas { display: block; }
-        /* NOVO ESTILO PARA BOTÕES DE OPORTUNIDADE */
-        .opportunity-button { background: var(--cor-branco); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; border: 1px solid #eee; width: 100%; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-bottom: 1rem; }
-        .opportunity-button:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-        .opportunity-button h4 { margin: 0; font-size: 1.2rem; display: flex; align-items: center; gap: 0.7rem; color: var(--cor-primaria); }
-        .opportunity-button p { margin-top: 0.5rem; margin-bottom: 0; font-size: 0.95rem; color: #6c757d; }
-        .opportunity-button .icon-luxo { font-size: 1.5rem; color: var(--cor-secundaria); }
     </style>
 </head>
 <body>
-    <header><h1>Intellisense AI & Kastel | Dashboard de Inteligência v21.0</h1></header>
+    <header><h1>Intellisense AI & Kastel | Dashboard de Inteligência v16.0</h1></header>
     <main>
         <section id="visao-geral">
             <h2>Visão Geral da Rede</h2>
             <div class="dashboard-grid">
-                <div class="card card-clickable" onclick="abrirModalGeral('notaMedia')">
-                    <h3>Nota Média da Rede</h3>
-                    <p class="metric text-alerta">4.2</p>
-                    <small>Baseado em 2.417 reviews</small>
-                    <div class="card-chart-container"><canvas id="chart-notaMedia" class="card-chart"></canvas></div>
-                </div>
-                <div class="card card-clickable" onclick="abrirModalGeral('sentimentoGeral')">
-                    <h3>Sentimento Geral</h3>
-                    <p class="metric text-sucesso">81%</p>
-                    <small>Positivo</small>
-                    <div class="card-chart-container"><canvas id="chart-sentimentoGeral" class="card-chart"></canvas></div>
-                </div>
-                <div class="card card-clickable" onclick="abrirModalGeral('oportunidadeReceita')">
-                    <h3>Oportunidade de Receita</h3>
-                    <p class="metric text-sucesso">+R$ 1.8M</p>
-                    <small>Potencial anual ao atingir nota 4.6</small>
-                    <div class="card-chart-container"><canvas id="chart-oportunidadeReceita" class="card-chart"></canvas></div>
-                </div>
+                <div class="card card-clickable" onclick="abrirModalGeral('notaMedia')"><h3>Nota Média da Rede</h3><p class="metric text-alerta">4.2</p><small>Baseado em 2.417 reviews</small></div>
+                <div class="card card-clickable" onclick="abrirModalGeral('sentimentoGeral')"><h3>Sentimento Geral</h3><p class="metric text-sucesso">81%</p><small>Positivo</small></div>
+                <div class="card card-clickable" onclick="abrirModalGeral('oportunidadeReceita')"><h3>Oportunidade de Receita</h3><p class="metric text-sucesso">+R$ 1.8M</p><small>Potencial anual ao atingir nota 4.6</small></div>
             </div>
         </section>
         <section id="unidades" style="margin-top: 4.5rem;">
@@ -108,31 +73,19 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const icones = {
-            dossie: {
-                objetivo: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>',
-                diagnostico: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 17.08z"/></svg>',
-                plano: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25-.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>',
-                prova: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M19 1H5c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-5 12h-2v-2h2v2zm0-4h-2V5h2v4z"/></svg>',
-                roi: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>'
-            },
-            swot: {
-                strengths: '<span class="icon-luxo">💎</span>', // Diamante
-                weaknesses: '<span class="icon-luxo">⚠️</span>', // Aviso
-                opportunities: '<span class="icon-luxo">✨</span>', // Brilho
-                threats: '<span class="icon-luxo">🛡️</span>' // Escudo (para proteção/ameaça)
-            },
-            oportunidade: {
-                reprecificacao: '<span class="icon-luxo">💰</span>', // Saco de Dinheiro
-                upselling: '<span class="icon-luxo">👑</span>' // Coroa
-            }
+        const iconesDossie = {
+            objetivo: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>',
+            diagnostico: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 17.08z"/></svg>',
+            plano: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25-.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>',
+            prova: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M19 1H5c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-5 12h-2v-2h2v2zm0-4h-2V5h2v4z"/></svg>',
+            roi: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>'
         };
         
         const dadosUnidades = {
-            petropolis: { titulo: "Análise: Kastel Petrópolis", resumo: { fortes: ["Localização central", "Café da manhã elogiado"], fracos: ["Quartos precisam de modernização", "Wi-Fi inconstante"] }, sentimento: { reviewPositivo: "A localização é simplesmente perfeita...", reviewNegativo: "O quarto era muito antigo..." }, swot: { strengths: { titulo: "Forças", detalhes: ["Marca com charme histórico atrai público qualificado.", "Localização imbatível no centro histórico."] }, weaknesses: { titulo: "Fraquezas", detalhes: ["Infraestrutura datada gera reviews negativos.", "Dependência de reviews antigos para reputação."] }, opportunities: { titulo: "Oportunidades", detalhes: ["Atrair público que busca 'luxo histórico' com marketing direcionado.", "Criar pacotes de fim de semana temáticos (ex: 'Fim de Semana Imperial')."] }, threats: { titulo: "Ameaças", detalhes: ["Novos hotéis boutique na região com infraestrutura moderna.", "Críticas sobre barulho podem afastar hóspedes sensíveis a ruído."] } }, oportunidades: { reprecificacao: { titulo: "Reprecificação", resumo: "Aumentar a nota de 4.2 para 4.6 pode gerar +R$ 450k/ano.", dossie: { objetivo: "Aumentar a diária média em 15% sem perder ocupação.", diagnostico: "A percepção de valor está atrelada à modernidade dos quartos.", plano: ["Mapeamento de custos de reforma.", "Criação de 'Quartos Superiores' pós-reforma.", "Campanha de marketing focada no 'novo' Kastel Petrópolis."], prova: "Hotéis históricos que se modernizam veem um aumento médio de 20% na satisfação.", roi: "Investimento na reforma se paga em 18 meses." } }, upselling: { titulo: "Upselling Inteligente", resumo: "Oferecer 'Upgrade para Suíte Imperial' na reserva poderia capturar +R$ 200k/ano.", dossie: { objetivo: "Aumentar a receita por cliente em 10% com upsell.", diagnostico: "Clientes que buscam Petrópolis valorizam experiências exclusivas.", plano: ["Fotografia profissional das suítes.", "Oferta de upgrade com um clique no motor de reservas.", "E-mail de 'convite para upgrade' 48h antes do check-in."], prova: "A oferta de upsell no momento certo tem uma taxa de conversão de 15-20%.", roi: "Custo de implementação quase zero, com retorno imediato." } } } },
-            recife: { titulo: "Análise: Kastel Recife", resumo: { fortes: ["Vista para o mar", "Cozinha regional"], fracos: ["Estacionamento limitado", "Manutenção da piscina"] }, sentimento: { reviewPositivo: "A vista do quarto é espetacular e o café da manhã delicioso.", reviewNegativo: "Tive problemas com a vaga de estacionamento e a piscina estava em manutenção." }, swot: { strengths: { titulo: "Forças", detalhes: ["Localização privilegiada na orla de Boa Viagem.", "Forte apelo ao turismo de lazer e negócios."] }, weaknesses: { titulo: "Fraquezas", detalhes: ["Infraestrutura de lazer (piscina) é ponto de crítica constante.", "Estacionamento insuficiente para a demanda."] }, opportunities: { titulo: "Oportunidades", detalhes: ["Parceria com empresas de turismo de aventura (mergulho, passeios de barco).", "Criar pacotes de 'Day Use' para moradores locais."] }, threats: { titulo: "Ameaças", detalhes: ["Erosão da praia pode afetar a percepção de valor da localização.", "Concorrência de grandes redes hoteleiras internacionais."] } }, oportunidades: { reprecificacao: { titulo: "Reprecificação", resumo: "Aumentar a nota de 4.0 para 4.4 pode gerar +R$ 350k/ano.", dossie: { objetivo: "Melhorar a percepção de valor para justificar diárias mais altas.", diagnostico: "Problemas de manutenção e serviço afetam diretamente a nota.", plano: ["Plano de manutenção preventiva e corretiva da piscina.", "Treinamento intensivo da equipe de recepção e serviço.", "Campanha de 'Recife Renovado' focada em melhorias."], prova: "Melhorias visíveis em áreas comuns aumentam a satisfação em 15%.", roi: "Investimento em manutenção se paga em 12 meses com aumento de diária." } }, upselling: { titulo: "Upselling Inteligente", resumo: "Vender 'Experiência Gastronômica Regional' no check-in.", dossie: { objetivo: "Aumentar a receita de alimentos e bebidas em 20%.", diagnostico: "A cozinha regional é um ponto forte, mas não é vendida ativamente.", plano: ["Criação de um 'Menu Degustação Regional' exclusivo para hóspedes.", "Oferta do menu com desconto no momento da reserva ou check-in.", "Marketing interno (TV do quarto, elevador) focado na gastronomia."], prova: "Hotéis com forte apelo gastronômico veem aumento de 20-30% na receita de A&B.", roi: "Custo de implementação baixo, retorno imediato." } } } },
-            buzios: { titulo: "Análise: Kastel Búzios", resumo: { fortes: ["Design e elegância", "Piscina com borda infinita"], fracos: ["Serviço lento em alta temporada", "Preços elevados"] }, sentimento: { reviewPositivo: "Que hotel! O lugar é um sonho, cada detalhe pensado.", reviewNegativo: "Pelo preço que pagamos, esperávamos um serviço mais ágil." }, swot: { strengths: { titulo: "Forças", detalhes: ["Estrutura de resort de luxo com alta percepção de valor.", "Alta atratividade para casais, luas de mel e eventos sociais."] }, weaknesses: { titulo: "Fraquezas", detalhes: ["Vulnerabilidade à sazonalidade, com baixa ocupação em certos períodos.", "Custos operacionais elevados que pressionam a margem."] }, opportunities: { titulo: "Oportunidades", detalhes: ["Explorar o lucrativo mercado de casamentos e eventos corporativos.", "Criar parcerias estratégicas com agências de turismo de luxo."] }, threats: { titulo: "Ameaças", detalhes: ["Concorrência direta de outros resorts de luxo na região.", "Flutuações econômicas que afetam o turismo de alto padrão."] } }, oportunidades: { reprecificacao: { titulo: "Reprecificação", resumo: "Proteger a margem com reservas diretas, economizando +R$ 600k/ano.", dossie: { objetivo: "Reduzir a dependência de OTAs em 30% em 12 meses.", diagnostico: "A alta comissão paga às OTAs corrói uma margem que poderia ser reinvestida.", plano: ["Análise do funil de reserva e implementação de tracking.", "Desenvolvimento de motor de reservas próprio e otimizado.", "Criação de campanha de 'Vantagens da Reserva Direta' (ex: welcome drink)."], prova: "Hotel parceiro em Gramado viu aumento de 40% nas reservas diretas.", roi: "Investimento no sistema se paga em menos de 8 meses." } }, upselling: { titulo: "Upselling Inteligente", resumo: "Criar 'Pacotes de Experiência Romântica' para aumentar o ticket médio em 25%.", dossie: { objetivo: "Aumentar o ticket médio por reserva em 25%.", diagnostico: "O hóspede de Búzios busca experiências, não apenas uma cama.", plano: ["Definição de 3 pacotes de experiência (Romântico, Aventura, Relax).", "Integração dos pacotes no novo motor de reservas.", "Campanhas de remarketing para não compradores."], prova: "Redes nos EUA reportam aumento de receita de até 35% com pacotes.", roi: "Potencial de +R$ 300k/ano em receita adicional." } } } },
-            joaopessoa: { titulo: "Análise: Kastel João Pessoa", resumo: { fortes: ["Custo-benefício", "Cultura local autêntica"], fracos: ["Infraestrutura simples", "Praia não ideal para banho"] }, sentimento: { reviewPositivo: "Ótimo hotel pelo preço. Simples, mas limpo e com equipe simpática.", reviewNegativo: "Achei que o hotel seria mais 'pé na areia'." }, swot: { strengths: { titulo: "Forças", detalhes: ["Preço altamente competitivo na região.", "Equipe consistentemente elogiada pela simpatia e prestatividade."] }, weaknesses: { titulo: "Fraquezas", detalhes: ["Produto pouco diferenciado em relação à concorrência.", "Baixa percepção de valor agregado além da hospedagem."] }, opportunities: { titulo: "Oportunidades", detalhes: ["Aproveitar o turismo crescente na Paraíba.", "Explorar o nicho de público que busca 'imersão cultural' e foge do luxo."] }, threats: { titulo: "Ameaças", detalhes: ["Crescimento exponencial da rede de Airbnb na região.", "Dependência excessiva do turismo de lazer, vulnerável a crises."] } }, oportunidades: { reprecificacao: { titulo: "Reprecificação", resumo: "Aumentar a nota de 4.1 para 4.4 pode gerar +R$ 250k/ano.", dossie: { objetivo: "Reposicionar o hotel como o 'Melhor Custo-Benefício Autêntico'.", diagnostico: "A simplicidade é vista como fraqueza, mas pode ser força se bem comunicada.", plano: ["Reformulação da comunicação visual focada na 'experiência local'.", "Parcerias com restaurantes e artesãos locais para oferecer descontos.", "Treinamento da equipe para agirem como 'concierges culturais'."], prova: "Hostels e hotéis-boutique com foco em experiência local têm as maiores taxas de engajamento online.", roi: "Baixo custo de implementação (parcerias) com alto impacto na diferenciação." } }, upselling: { titulo: "Upselling Inteligente", resumo: "Vender 'Passeios Culturais Exclusivos' na reserva.", dossie: { objetivo: "Criar uma nova linha de receita baseada em comissão de passeios.", diagnostico: "Turistas em João Pessoa buscam passeios, e o hotel não captura essa receita.", plano: ["Mapear e negociar com os 5 melhores guias turísticos da região.", "Criar pacotes de passeios exclusivos para hóspedes Kastel.", "Integrar a venda desses passeios diretamente no fluxo de reserva online."], prova: "Agências de turismo online têm margens de 15-25% sobre passeios. O hotel pode capturar parte disso.", roi: "Receita nova com zero investimento em ativos, apenas em parcerias." } } } }
+            petropolis: { titulo: "Análise: Kastel Petrópolis", resumo: { fortes: ["Localização central", "Café da manhã elogiado"], fracos: ["Quartos precisam de modernização", "Wi-Fi inconstante"] }, sentimento: { reviewPositivo: "A localização é simplesmente perfeita...", reviewNegativo: "O quarto era muito antigo..." }, oportunidades: { reprecificacao: { titulo: "Reprecificação", resumo: "Aumentar a nota de 4.2 para 4.6 pode gerar +R$ 450k/ano.", dossie: { objetivo: "Aumentar a diária média em 15% sem perder ocupação.", diagnostico: "A percepção de valor está atrelada à modernidade dos quartos.", plano: ["Mapeamento de custos de reforma.", "Criação de 'Quartos Superiores' pós-reforma.", "Campanha de marketing focada no 'novo' Kastel Petrópolis."], prova: "Hotéis históricos que se modernizam veem um aumento médio de 20% na satisfação.", roi: "Investimento na reforma se paga em 18 meses." } }, upselling: { titulo: "Upselling Inteligente", resumo: "Oferecer 'Upgrade para Suíte Imperial' na reserva poderia capturar +R$ 200k/ano.", dossie: { objetivo: "Aumentar a receita por cliente em 10% com upsell.", diagnostico: "Clientes que buscam Petrópolis valorizam experiências exclusivas.", plano: ["Fotografia profissional das suítes.", "Oferta de upgrade com um clique no motor de reservas.", "E-mail de 'convite para upgrade' 48h antes do check-in."], prova: "A oferta de upsell no momento certo tem uma taxa de conversão de 15-20%.", roi: "Custo de implementação quase zero, com retorno imediato." } } } },
+            recife: { titulo: "Análise: Kastel Recife", resumo: { fortes: ["Vista para o mar", "Área da piscina"], fracos: ["Atendimento na recepção", "Mobiliário desgastado"] }, sentimento: { reviewPositivo: "A vista do nosso quarto era de tirar o fôlego!", reviewNegativo: "Ficamos mais de 30 minutos para fazer o check-in." }, oportunidades: { reprecificacao: { titulo: "Reprecificação", resumo: "Aumentar a nota de 4.0 para 4.4 pode gerar +R$ 350k/ano.", dossie: { objetivo: "Elevar a nota de serviço em 0.5 pontos em 6 meses.", diagnostico: "O principal detrator da nota é o atendimento, não o produto.", plano: ["Treinamento intensivo da equipe de recepção com foco em hospitalidade.", "Implementação de um sistema de 'check-in online' para reduzir filas.", "Programa de incentivo para funcionários com melhores avaliações."], prova: "Empresas que investem em treinamento de front-line melhoram a retenção de clientes em 18%.", roi: "Baixo investimento (treinamento) com alto impacto na percepção de valor." } }, upselling: { titulo: "Upselling Inteligente", resumo: "Oferecer 'Check-in Expresso VIP' por uma taxa pode gerar +R$ 100k/ano.", dossie: { objetivo: "Criar uma nova fonte de receita e aliviar a recepção.", diagnostico: "Clientes a negócio e famílias com crianças pagariam para evitar filas.", plano: ["Criação de um balcão 'VIP' separado.", "Oferta do serviço como um adicional no momento da reserva online.", "Divulgação da vantagem 'sem filas' nas redes sociais."], prova: "Companhias aéreas geram bilhões com embarque prioritário, o princípio é o mesmo.", roi: "Retorno imediato sobre um investimento primariamente operacional." } } } },
+            buzios: { titulo: "Análise: Kastel Búzios", resumo: { fortes: ["Design e elegância", "Piscina com borda infinita"], fracos: ["Serviço lento em alta temporada", "Preços elevados"] }, sentimento: { reviewPositivo: "Que hotel! O lugar é um sonho, cada detalhe pensado.", reviewNegativo: "Pelo preço que pagamos, esperávamos um serviço mais ágil." }, oportunidades: { reprecificacao: { titulo: "Reprecificação", resumo: "Proteger a margem com reservas diretas, economizando +R$ 600k/ano.", dossie: { objetivo: "Reduzir a dependência de OTAs em 30% em 12 meses.", diagnostico: "A alta comissão paga às OTAs corrói uma margem que poderia ser reinvestida.", plano: ["Análise do funil de reserva e implementação de tracking.", "Desenvolvimento de motor de reservas próprio e otimizado.", "Criação de campanha de 'Vantagens da Reserva Direta' (ex: welcome drink)."], prova: "Hotel parceiro em Gramado viu aumento de 40% nas reservas diretas.", roi: "Investimento no sistema se paga em menos de 8 meses." } }, upselling: { titulo: "Upselling Inteligente", resumo: "Criar 'Pacotes de Experiência Romântica' para aumentar o ticket médio em 25%.", dossie: { objetivo: "Aumentar o ticket médio por reserva em 25%.", diagnostico: "O hóspede de Búzios busca experiências, não apenas uma cama.", plano: ["Definição de 3 pacotes de experiência (Romântico, Aventura, Relax).", "Integração dos pacotes no novo motor de reservas.", "Campanhas de remarketing para não compradores."], prova: "Redes nos EUA reportam aumento de receita de até 35% com pacotes.", roi: "Potencial de +R$ 300k/ano em receita adicional." } } } },
+            joaopessoa: { titulo: "Análise: Kastel João Pessoa", resumo: { fortes: ["Custo-benefício", "Cultura local autêntica"], fracos: ["Infraestrutura simples", "Praia não ideal para banho"] }, sentimento: { reviewPositivo: "Ótimo hotel pelo preço. Simples, mas limpo e com equipe simpática.", reviewNegativo: "Achei que o hotel seria mais 'pé na areia'." }, oportunidades: { reprecificacao: { titulo: "Reprecificação", resumo: "Aumentar a nota de 4.1 para 4.4 pode gerar +R$ 250k/ano.", dossie: { objetivo: "Reposicionar o hotel como o 'Melhor Custo-Benefício Autêntico'.", diagnostico: "A simplicidade é vista como fraqueza, mas pode ser força se bem comunicada.", plano: ["Reformulação da comunicação visual focada na 'experiência local'.", "Parcerias com restaurantes e artesãos locais para oferecer descontos.", "Treinamento da equipe para agirem como 'concierges culturais'."], prova: "Hostels e hotéis-boutique com foco em experiência local têm as maiores taxas de engajamento online.", roi: "Baixo custo de implementação (parcerias) com alto impacto na diferenciação." } }, upselling: { titulo: "Upselling Inteligente", resumo: "Vender 'Passeios Culturais Exclusivos' na reserva.", dossie: { objetivo: "Criar uma nova linha de receita baseada em comissão de passeios.", diagnostico: "Turistas em João Pessoa buscam passeios, e o hotel não captura essa receita.", plano: ["Mapear e negociar com os 5 melhores guias turísticos da região.", "Criar pacotes de passeios exclusivos para hóspedes Kastel.", "Integrar a venda desses passeios diretamente no fluxo de reserva online."], prova: "Agências de turismo online têm margens de 15-25% sobre passeios. O hotel pode capturar parte disso.", roi: "Receita nova com zero investimento em ativos, apenas em parcerias." } } } }
         };
         const dadosGeraisGraficos = {
             notaMedia: { title: 'Evolução da Nota Média', config: { type: 'line', data: { labels: ['Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'], datasets: [{ label: 'Nota Média', data: [4.0, 4.1, 4.0, 4.2, 4.1, 4.2], borderColor: '#b59247', tension: 0.4, fill: true, backgroundColor: 'rgba(181, 146, 71, 0.1)' }] } } },
@@ -144,51 +97,6 @@
         const proposalModalOverlay = document.getElementById('proposal-modal-overlay');
         let activeChart = null;
 
-        // FUNÇÃO PARA INICIALIZAR GRÁFICOS NOS CARDS
-        function inicializarGraficosNosCards() {
-            Object.keys(dadosGeraisGraficos).forEach(id => {
-                const config = dadosGeraisGraficos[id].config;
-                const ctx = document.getElementById(`chart-${id}`).getContext('2d');
-                
-                // Configurações específicas para gráficos em cards (miniaturas)
-                const cardConfig = {
-                    ...config,
-                    options: {
-                        ...config.options,
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false },
-                            tooltip: { enabled: false }
-                        },
-                        scales: {
-                            x: { display: false },
-                            y: { display: false }
-                        },
-                        elements: {
-                            point: { radius: 0 },
-                            line: { borderWidth: 2 }
-                        }
-                    }
-                };
-
-                // Ajuste específico para o gráfico de barra (Oportunidade de Receita)
-                if (id === 'oportunidadeReceita') {
-                    cardConfig.options.indexAxis = 'x'; // Volta para eixo X para miniatura
-                    cardConfig.options.scales.x = { display: false };
-                    cardConfig.options.scales.y = { display: false };
-                }
-                
-                // Ajuste específico para o gráfico de rosca (Sentimento Geral)
-                if (id === 'sentimentoGeral') {
-                    cardConfig.options.cutout = '80%';
-                }
-
-                new Chart(ctx, cardConfig);
-            });
-        }
-
-        // FUNÇÃO PARA ABRIR MODAL GERAL (COM GRÁFICO GRANDE)
         window.abrirModalGeral = function(id) {
             if(activeChart) activeChart.destroy();
             const geralConfig = dadosGeraisGraficos[id];
@@ -196,185 +104,36 @@
             modalOverlay.innerHTML = conteudoHTML;
             modalOverlay.classList.add('active');
             const ctx = document.getElementById('geralChart').getContext('2d');
-            
-            // Configurações para o gráfico no modal (tamanho normal)
-            const modalChartConfig = {
-                ...geralConfig.config,
-                options: {
-                    ...geralConfig.config.options,
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: { display: true },
-                        tooltip: { enabled: true }
-                    },
-                    scales: {
-                        x: { display: true },
-                        y: { display: true }
-                    }
-                }
-            };
-
-            // Ajuste específico para o gráfico de barra (Oportunidade de Receita)
-            if (id === 'oportunidadeReceita') {
-                modalChartConfig.options.indexAxis = 'y'; // Volta para eixo Y no modal
-            }
-
-            activeChart = new Chart(ctx, modalChartConfig);
+            activeChart = new Chart(ctx, geralConfig.config);
         }
 
-        // FUNÇÃO PARA ABRIR MODAL DA UNIDADE
         window.abrirModalUnidade = function(id) {
             const dados = dadosUnidades[id];
             if (!dados) return;
-
-            // Conteúdo da aba SWOT
-            const swotContent = `
-                <div class="swot-grid">
-                    ${Object.keys(dados.swot).map(key => `
-                        <button class="swot-button ${key}" onclick="abrirDetalheSwot('${id}', '${key}')">
-                            <h4>${icones.swot[key]} ${dados.swot[key].titulo}</h4>
-                            <ul>
-                                ${dados.swot[key].detalhes.map(detalhe => `<li>${detalhe}</li>`).join('')}
-                            </ul>
-                        </button>
-                    `).join('')}
-                </div>
-            `;
-
-            // Conteúdo da aba Oportunidades
-            const oportunidadesContent = `
-                <div class="opportunity-card">
-                    <button class="opportunity-button" onclick="abrirDetalheOportunidade('${id}', 'reprecificacao')">
-                        <h4>${icones.oportunidade.reprecificacao} ${dados.oportunidades.reprecificacao.titulo}</h4>
-                        <p>${dados.oportunidades.reprecificacao.resumo}</p>
-                    </button>
-                    <button class="opportunity-button" onclick="abrirDetalheOportunidade('${id}', 'upselling')">
-                        <h4>${icones.oportunidade.upselling} ${dados.oportunidades.upselling.titulo}</h4>
-                        <p>${dados.oportunidades.upselling.resumo}</p>
-                    </button>
-                </div>
-            `;
-
-            const conteudoHTML = `
-                <div class="modal-container">
-                    <div class="modal-header">
-                        <button class="modal-close" onclick="fecharModal('modal-overlay')">&times;</button>
-                        <h2>${dados.titulo}</h2>
-                    </div>
-                    <div class="modal-tabs">
-                        <button class="tab-button active" onclick="trocarAba(this, 'resumo')">Resumo</button>
-                        <button class="tab-button" onclick="trocarAba(this, 'swot')">Análise SWOT</button>
-                        <button class="tab-button" onclick="trocarAba(this, 'oportunidades')">Oportunidades de Receita</button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="tab-resumo" class="tab-content active">
-                            <h3>Resumo de Performance</h3>
-                            <p><strong>Pontos Fortes:</strong> ${dados.resumo.fortes.join(', ')}</p>
-                            <p><strong>Pontos Fracos:</strong> ${dados.resumo.fracos.join(', ')}</p>
-                            <h3>Sentimento dos Hóspedes</h3>
-                            <div class="review positive"><strong>Positivo:</strong> ${dados.sentimento.reviewPositivo}</div>
-                            <div class="review negative"><strong>Negativo:</strong> ${dados.sentimento.reviewNegativo}</div>
-                        </div>
-                        <div id="tab-swot" class="tab-content swot-modal-body">
-                            ${swotContent}
-                        </div>
-                        <div id="tab-oportunidades" class="tab-content proposal-modal-body">
-                            ${oportunidadesContent}
-                        </div>
-                    </div>
-                </div>
-            `;
+            const conteudoHTML = `<div class="modal-container"><div class="modal-header"><button class="modal-close" onclick="fecharModal('modal-overlay')">&times;</button><h2>${dados.titulo}</h2></div><div class="modal-tabs"><button class="tab-button active" onclick="mudarAba(event, 'resumo')">Resumo</button><button class="tab-button" onclick="mudarAba(event, 'sentimento')">Análise de Sentimento</button><button class="tab-button" onclick="mudarAba(event, 'oportunidades')">Oportunidades de Receita</button></div><div class="modal-body"><div id="resumo" class="tab-content active"><h3>Pontos Fortes</h3><ul>${dados.resumo.fortes.map(p => `<li>${p}</li>`).join('')}</ul><h3>Pontos de Melhoria</h3><ul>${dados.resumo.fracos.map(p => `<li>${p}</li>`).join('')}</ul></div><div id="sentimento" class="tab-content"><div class="review positive"><h3>Exemplo Positivo</h3><p>"${dados.sentimento.reviewPositivo}"</p></div><div class="review negative"><h3>Exemplo Negativo</h3><p>"${dados.sentimento.reviewNegativo}"</p></div></div><div id="oportunidades" class="tab-content"><h3>Oportunidades Estratégicas</h3><div class="card card-clickable opportunity-card" onclick="abrirModalProposta('${id}', 'reprecificacao')"><h4>${dados.oportunidades.reprecificacao.titulo}</h4><p>${dados.oportunidades.reprecificacao.resumo}</p></div><div class="card card-clickable opportunity-card" onclick="abrirModalProposta('${id}', 'upselling')"><h4>${dados.oportunidades.upselling.titulo}</h4><p>${dados.oportunidades.upselling.resumo}</p></div></div></div></div>`;
             modalOverlay.innerHTML = conteudoHTML;
             modalOverlay.classList.add('active');
         }
 
-        // FUNÇÃO PARA ABRIR DETALHE SWOT
-        window.abrirDetalheSwot = function(unidadeId, swotKey) {
-            const dados = dadosUnidades[unidadeId].swot[swotKey];
-            const icone = icones.swot[swotKey];
-            const titulo = dados.titulo;
-            const detalhesHTML = dados.detalhes.map(d => `<li>${d}</li>`).join('');
-
-            const conteudoHTML = `
-                <div class="modal-container" style="max-width: 600px;">
-                    <div class="modal-header">
-                        <button class="modal-close" onclick="fecharModal('proposal-modal-overlay')">&times;</button>
-                        <h2>${icone} Detalhe: ${titulo}</h2>
-                    </div>
-                    <div class="modal-body">
-                        <ul>${detalhesHTML}</ul>
-                        <button class="swot-button" onclick="fecharModal('proposal-modal-overlay')">Voltar</button>
-                    </div>
-                </div>
-            `;
+        window.abrirModalProposta = function(unidadeId, propostaId) {
+            const proposta = dadosUnidades[unidadeId].oportunidades[propostaId];
+            const conteudoHTML = `<div class="modal-container"><div class="modal-header"><button class="modal-close" onclick="fecharModal('proposal-modal-overlay')">&times;</button><h2>Dossiê: ${proposta.titulo}</h2></div><div class="modal-body proposal-modal-body"><h3>${iconesDossie.objetivo} Objetivo</h3><p>${proposta.dossie.objetivo}</p><h3>${iconesDossie.diagnostico} Diagnóstico</h3><p>${proposta.dossie.diagnostico}</p><h3>${iconesDossie.plano} Plano de Ação</h3><div class="proposal-step"><div class="step-number">1</div><div>${proposta.dossie.plano[0]}</div></div><div class="proposal-step"><div class="step-number">2</div><div>${proposta.dossie.plano[1]}</div></div><div class="proposal-step"><div class="step-number">3</div><div>${proposta.dossie.plano[2]}</div></div><h3>${iconesDossie.prova} Prova (Mini-Case)</h3><p>${proposta.dossie.prova}</p><h3>${iconesDossie.roi} Projeção de ROI</h3><p>${proposta.dossie.roi}</p></div></div>`;
             proposalModalOverlay.innerHTML = conteudoHTML;
             proposalModalOverlay.classList.add('active');
         }
 
-        // FUNÇÃO PARA ABRIR DETALHE OPORTUNIDADE (Reprecificação/Upselling)
-        window.abrirDetalheOportunidade = function(unidadeId, oportunidadeKey) {
-            const dados = dadosUnidades[unidadeId].oportunidades[oportunidadeKey];
-            const icone = icones.oportunidade[oportunidadeKey];
-            const dossie = dados.dossie;
-
-            const conteudoHTML = `
-                <div class="modal-container">
-                    <div class="modal-header">
-                        <button class="modal-close" onclick="fecharModal('proposal-modal-overlay')">&times;</button>
-                        <h2>${icone} Dossie de Oportunidade: ${dados.titulo}</h2>
-                    </div>
-                    <div class="modal-body proposal-modal-body">
-                        <p><strong>Resumo:</strong> ${dados.resumo}</p>
-                        
-                        <h3>${icones.dossie.objetivo} Objetivo Estratégico</h3>
-                        <p>${dossie.objetivo}</p>
-
-                        <h3>${icones.dossie.diagnostico} Diagnóstico da Situação</h3>
-                        <p>${dossie.diagnostico}</p>
-
-                        <h3>${icones.dossie.plano} Plano de Ação Sugerido</h3>
-                        <ul>
-                            ${dossie.plano.map(p => `<li>${p}</li>`).join('')}
-                        </ul>
-
-                        <h3>${icones.dossie.prova} Prova de Conceito</h3>
-                        <p>${dossie.prova}</p>
-
-                        <h3>${icones.dossie.roi} Retorno sobre Investimento (ROI)</h3>
-                        <p>${dossie.roi}</p>
-                        
-                        <button class="swot-button" onclick="fecharModal('proposal-modal-overlay')">Voltar</button>
-                    </div>
-                </div>
-            `;
-            proposalModalOverlay.innerHTML = conteudoHTML;
-            proposalModalOverlay.classList.add('active');
+        window.fecharModal = function(modalId) { document.getElementById(modalId).classList.remove('active'); }
+        window.mudarAba = function(event, abaId) {
+            const modal = event.target.closest('.modal-container');
+            modal.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            modal.querySelectorAll('.tab-button').forEach(tb => tb.classList.remove('active'));
+            modal.querySelector(`#${abaId}`).classList.add('active');
+            event.currentTarget.classList.add('active');
         }
 
-        // FUNÇÃO PARA FECHAR MODAL
-        window.fecharModal = function(id) {
-            document.getElementById(id).classList.remove('active');
-            if (activeChart) {
-                activeChart.destroy();
-                activeChart = null;
-            }
-        }
-
-        // FUNÇÃO PARA TROCAR ABA
-        window.trocarAba = function(botao, id) {
-            const abas = botao.closest('.modal-container').querySelectorAll('.tab-button');
-            const conteudos = botao.closest('.modal-container').querySelectorAll('.tab-content');
-
-            abas.forEach(aba => aba.classList.remove('active'));
-            conteudos.forEach(conteudo => conteudo.classList.remove('active'));
-
-            botao.classList.add('active');
-            document.getElementById(`tab-${id}`).classList.add('active');
-        }
-
-        // Inicializa os gráficos miniatura nos cards
-        inicializarGraficosNosCards();
+        modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) fecharModal('modal-overlay'); });
+        proposalModalOverlay.addEventListener('click', (e) => { if (e.target === proposalModalOverlay) fecharModal('proposal-modal-overlay'); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { fecharModal('modal-overlay'); fecharModal('proposal-modal-overlay'); } });
     });
     </script>
 </body>
