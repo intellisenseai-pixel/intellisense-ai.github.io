@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kastel - Dashboard de Inteligência v18.0 | Intellisense AI</title>
+    <title>Kastel - Dashboard de Inteligência v19.0 | Intellisense AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* ESTILOS EXATOS DA v16.0 - INTOCADOS */
+        /* ESTILOS EXATOS DA v18.0 - INTOCADOS */
         :root { --cor-fundo: #f9f9f9; --cor-primaria: #002d4b; --cor-secundaria: #b59247; --cor-texto: #343a40; --cor-sucesso: #28a745; --cor-alerta: #ffc107; --cor-perigo: #dc3545; --cor-branco: #ffffff; --sombra-card: 0 7px 25px rgba(0, 45, 75, 0.08 ); --sombra-card-hover: 0 10px 30px rgba(0, 45, 75, 0.12); }
         body { font-family: 'Montserrat', sans-serif; background-color: var(--cor-fundo); color: var(--cor-texto); margin: 0; line-height: 1.6; }
         header { background-color: var(--cor-primaria); color: var(--cor-branco); padding: 1.5rem 3rem; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
@@ -46,8 +46,6 @@
         .proposal-step { display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 1rem; }
         .proposal-step .step-number { font-size: 2rem; font-weight: 700; color: var(--cor-secundaria); line-height: 1; }
         .dossie-icon { width: 24px; height: 24px; fill: var(--cor-secundaria); }
-
-        /* ADIÇÃO CIRÚRGICA: Estilos para a aba SWOT */
         .swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem; }
         .swot-card { background: var(--cor-branco); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .swot-card h4 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
@@ -59,7 +57,7 @@
     </style>
 </head>
 <body>
-    <header><h1>Intellisense AI & Kastel | Dashboard de Inteligência v18.0</h1></header>
+    <header><h1>Intellisense AI & Kastel | Dashboard de Inteligência v19.0</h1></header>
     <main>
         <section id="visao-geral">
             <h2>Visão Geral da Rede</h2>
@@ -83,23 +81,32 @@
     <div class="modal-overlay" id="proposal-modal-overlay"></div>
 
     <script>
+    // JAVASCRIPT v19.0 - LÓGICA RESTAURADA E CORRIGIDA
     document.addEventListener('DOMContentLoaded', () => {
-        // JAVASCRIPT EXATO DA v16.0 - INTOCADO
-        const iconesDossie = { /* ...icones... */ };
-        const dadosGeraisGraficos = { /* ...configurações dos gráficos... */ };
-        const modalOverlay = document.getElementById('modal-overlay');
-        const proposalModalOverlay = document.getElementById('proposal-modal-overlay');
-        let activeChart = null;
-
-        // ADIÇÃO CIRÚRGICA: Dados SWOT adicionados à estrutura de dados existente
+        const iconesDossie = {
+            objetivo: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>',
+            diagnostico: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 17.08z"/></svg>',
+            plano: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25-.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>',
+            prova: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M19 1H5c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-5 12h-2v-2h2v2zm0-4h-2V5h2v4z"/></svg>',
+            roi: '<svg class="dossie-icon" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>'
+        };
+        
         const dadosUnidades = {
             petropolis: { titulo: "Análise: Kastel Petrópolis", resumo: { fortes: ["Localização central", "Café da manhã elogiado"], fracos: ["Quartos precisam de modernização", "Wi-Fi inconstante"] }, sentimento: { reviewPositivo: "A localização é simplesmente perfeita...", reviewNegativo: "O quarto era muito antigo..." }, swot: { strengths: ["Marca com charme histórico", "Localização imbatível"], weaknesses: ["Infraestrutura datada", "Dependência de reviews antigos"], opportunities: ["Atrair público que busca 'luxo histórico'", "Criar pacotes de fim de semana temáticos"], threats: ["Novos hotéis boutique na região", "Críticas sobre barulho podem afastar hóspedes sensíveis"] }, oportunidades: { reprecificacao: { titulo: "Reprecificação", resumo: "Aumentar a nota de 4.2 para 4.6 pode gerar +R$ 450k/ano.", dossie: { objetivo: "Aumentar a diária média em 15% sem perder ocupação.", diagnostico: "A percepção de valor está atrelada à modernidade dos quartos.", plano: ["Mapeamento de custos de reforma.", "Criação de 'Quartos Superiores' pós-reforma.", "Campanha de marketing focada no 'novo' Kastel Petrópolis."], prova: "Hotéis históricos que se modernizam veem um aumento médio de 20% na satisfação.", roi: "Investimento na reforma se paga em 18 meses." } }, upselling: { titulo: "Upselling Inteligente", resumo: "Oferecer 'Upgrade para Suíte Imperial' na reserva poderia capturar +R$ 200k/ano.", dossie: { objetivo: "Aumentar a receita por cliente em 10% com upsell.", diagnostico: "Clientes que buscam Petrópolis valorizam experiências exclusivas.", plano: ["Fotografia profissional das suítes.", "Oferta de upgrade com um clique no motor de reservas.", "E-mail de 'convite para upgrade' 48h antes do check-in."], prova: "A oferta de upsell no momento certo tem uma taxa de conversão de 15-20%.", roi: "Custo de implementação quase zero, com retorno imediato." } } } },
             recife: { titulo: "Análise: Kastel Recife", resumo: { fortes: ["Vista para o mar", "Área da piscina"], fracos: ["Atendimento na recepção", "Mobiliário desgastado"] }, sentimento: { reviewPositivo: "A vista do nosso quarto era de tirar o fôlego!", reviewNegativo: "Ficamos mais de 30 minutos para fazer o check-in." }, swot: { strengths: ["Localização beira-mar", "Proximidade de pontos turísticos"], weaknesses: ["Processos de atendimento ineficientes", "Percepção de 'hotel antigo'"], opportunities: ["Turismo de negócios durante a semana", "Parcerias com companhias aéreas"], threats: ["Forte concorrência na orla de Boa Viagem", "Insegurança na região à noite"] }, oportunidades: { reprecificacao: { titulo: "Reprecificação", resumo: "Aumentar a nota de 4.0 para 4.4 pode gerar +R$ 350k/ano.", dossie: { objetivo: "Elevar a nota de serviço em 0.5 pontos em 6 meses.", diagnostico: "O principal detrator da nota é o atendimento, não o produto.", plano: ["Treinamento intensivo da equipe de recepção com foco em hospitalidade.", "Implementação de um sistema de 'check-in online' para reduzir filas.", "Programa de incentivo para funcionários com melhores avaliações."], prova: "Empresas que investem em treinamento de front-line melhoram a retenção de clientes em 18%.", roi: "Baixo investimento (treinamento) com alto impacto na percepção de valor." } }, upselling: { titulo: "Upselling Inteligente", resumo: "Oferecer 'Check-in Expresso VIP' por uma taxa pode gerar +R$ 100k/ano.", dossie: { objetivo: "Criar uma nova fonte de receita e aliviar a recepção.", diagnostico: "Clientes a negócio e famílias com crianças pagariam para evitar filas.", plano: ["Criação de um balcão 'VIP' separado.", "Oferta do serviço como um adicional no momento da reserva online.", "Divulgação da vantagem 'sem filas' nas redes sociais."], prova: "Companhias aéreas geram bilhões com embarque prioritário, o princípio é o mesmo.", roi: "Retorno imediato sobre um investimento primariamente operacional." } } } },
             buzios: { titulo: "Análise: Kastel Búzios", resumo: { fortes: ["Design e elegância", "Piscina com borda infinita"], fracos: ["Serviço lento em alta temporada", "Preços elevados"] }, sentimento: { reviewPositivo: "Que hotel! O lugar é um sonho, cada detalhe pensado.", reviewNegativo: "Pelo preço que pagamos, esperávamos um serviço mais ágil." }, swot: { strengths: ["Estrutura de resort de luxo", "Alta atratividade para casais e eventos"], weaknesses: ["Vulnerabilidade à sazonalidade", "Custos operacionais elevados"], opportunities: ["Mercado de casamentos e eventos corporativos", "Parcerias com agências de turismo de luxo"], threats: ["Concorrência de outros resorts de luxo", "Flutuações econômicas que afetam o turismo de alto padrão"] }, oportunidades: { reprecificacao: { titulo: "Reprecificação", resumo: "Proteger a margem com reservas diretas, economizando +R$ 600k/ano.", dossie: { objetivo: "Reduzir a dependência de OTAs em 30% em 12 meses.", diagnostico: "A alta comissão paga às OTAs corrói uma margem que poderia ser reinvestida.", plano: ["Análise do funil de reserva e implementação de tracking.", "Desenvolvimento de motor de reservas próprio e otimizado.", "Criação de campanha de 'Vantagens da Reserva Direta' (ex: welcome drink)."], prova: "Hotel parceiro em Gramado viu aumento de 40% nas reservas diretas.", roi: "Investimento no sistema se paga em menos de 8 meses." } }, upselling: { titulo: "Upselling Inteligente", resumo: "Criar 'Pacotes de Experiência Romântica' para aumentar o ticket médio em 25%.", dossie: { objetivo: "Aumentar o ticket médio por reserva em 25%.", diagnostico: "O hóspede de Búzios busca experiências, não apenas uma cama.", plano: ["Definição de 3 pacotes de experiência (Romântico, Aventura, Relax).", "Integração dos pacotes no novo motor de reservas.", "Campanhas de remarketing para não compradores."], prova: "Redes nos EUA reportam aumento de receita de até 35% com pacotes.", roi: "Potencial de +R$ 300k/ano em receita adicional." } } } },
             joaopessoa: { titulo: "Análise: Kastel João Pessoa", resumo: { fortes: ["Custo-benefício", "Cultura local autêntica"], fracos: ["Infraestrutura simples", "Praia não ideal para banho"] }, sentimento: { reviewPositivo: "Ótimo hotel pelo preço. Simples, mas limpo e com equipe simpática.", reviewNegativo: "Achei que o hotel seria mais 'pé na areia'." }, swot: { strengths: ["Preço competitivo", "Equipe elogiada pela simpatia"], weaknesses: ["Produto pouco diferenciado", "Baixa percepção de valor agregado"], opportunities: ["Turismo crescente na Paraíba", "Explorar o público que busca 'imersão cultural'"], threats: ["Crescimento da rede de Airbnb na região", "Dependência do turismo de lazer"] }, oportunidades: { reprecificacao: { titulo: "Reprecificação", resumo: "Aumentar a nota de 4.1 para 4.4 pode gerar +R$ 250k/ano.", dossie: { objetivo: "Reposicionar o hotel como o 'Melhor Custo-Benefício Autêntico'.", diagnostico: "A simplicidade é vista como fraqueza, mas pode ser força se bem comunicada.", plano: ["Reformulação da comunicação visual focada na 'experiência local'.", "Parcerias com restaurantes e artesãos locais para oferecer descontos.", "Treinamento da equipe para agirem como 'concierges culturais'."], prova: "Hostels e hotéis-boutique com foco em experiência local têm as maiores taxas de engajamento online.", roi: "Baixo custo de implementação (parcerias) com alto impacto na diferenciação." } }, upselling: { titulo: "Upselling Inteligente", resumo: "Vender 'Passeios Culturais Exclusivos' na reserva.", dossie: { objetivo: "Criar uma nova linha de receita baseada em comissão de passeios.", diagnostico: "Turistas em João Pessoa buscam passeios, e o hotel não captura essa receita.", plano: ["Mapear e negociar com os 5 melhores guias turísticos da região.", "Criar pacotes de passeios exclusivos para hóspedes Kastel.", "Integrar a venda desses passeios diretamente no fluxo de reserva online."], prova: "Agências de turismo online têm margens de 15-25% sobre passeios. O hotel pode capturar parte disso.", roi: "Receita nova com zero investimento em ativos, apenas em parcerias." } } } }
         };
+        const dadosGeraisGraficos = {
+            notaMedia: { title: 'Evolução da Nota Média', config: { type: 'line', data: { labels: ['Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'], datasets: [{ label: 'Nota Média', data: [4.0, 4.1, 4.0, 4.2, 4.1, 4.2], borderColor: '#b59247', tension: 0.4, fill: true, backgroundColor: 'rgba(181, 146, 71, 0.1)' }] } } },
+            sentimentoGeral: { title: 'Distribuição de Sentimento', config: { type: 'doughnut', data: { labels: ['Positivo', 'Neutro', 'Negativo'], datasets: [{ data: [81, 12, 7], backgroundColor: ['#28a745', '#adb5bd', '#dc3545'], borderWidth: 0 }] }, options: { cutout: '70%' } } },
+            oportunidadeReceita: { title: 'Projeção de Receita', config: { type: 'bar', data: { labels: ['Receita Atual (Estimada)', 'Receita Potencial'], datasets: [{ label: 'Receita Anual (em Milhões R$)', data: [12.5, 14.3], backgroundColor: ['#adb5bd', '#28a745'] }] }, options: { indexAxis: 'y', plugins: { legend: { display: false } } } } }
+        };
 
-        // LÓGICA DA v16.0 - INTOCADA
+        const modalOverlay = document.getElementById('modal-overlay');
+        const proposalModalOverlay = document.getElementById('proposal-modal-overlay');
+        let activeChart = null;
+
         window.abrirModalGeral = function(id) {
             if(activeChart) activeChart.destroy();
             const geralConfig = dadosGeraisGraficos[id];
@@ -110,7 +117,6 @@
             activeChart = new Chart(ctx, geralConfig.config);
         }
 
-        // ADIÇÃO CIRÚRGICA: HTML da aba SWOT adicionado à função existente
         window.abrirModalUnidade = function(id) {
             const dados = dadosUnidades[id];
             if (!dados) return;
@@ -141,14 +147,12 @@
             modalOverlay.classList.add('active');
         }
 
-        // LÓGICA DA v16.0 - INTOCADA
-        window.abrirModalProposta = function(unidadeId, propostaId) { /* ... */ }
-        window.fecharModal = function(modalId) { /* ... */ }
-        window.mudarAba = function(event, abaId) { /* ... */ }
-        modalOverlay.addEventListener('click', (e) => { /* ... */ });
-        proposalModalOverlay.addEventListener('click', (e) => { /* ... */ });
-        document.addEventListener('keydown', (e) => { /* ... */ });
-    });
-    </script>
-</body>
-</html>
+        window.abrirModalProposta = function(unidadeId, propostaId) {
+            const proposta = dadosUnidades[unidadeId].oportunidades[propostaId];
+            const conteudoHTML = `<div class="modal-container"><div class="modal-header"><button class="modal-close" onclick="fecharModal('proposal-modal-overlay')">&times;</button><h2>Dossiê: ${proposta.titulo}</h2></div><div class="modal-body proposal-modal-body"><h3>${iconesDossie.objetivo} Objetivo</h3><p>${proposta.dossie.objetivo}</p><h3>${iconesDossie.diagnostico} Diagnóstico</h3><p>${proposta.dossie.diagnostico}</p><h3>${iconesDossie.plano} Plano de Ação</h3><div class="proposal-step"><div class="step-number">1</div><div>${proposta.dossie.plano[0]}</div></div><div class="proposal-step"><div class="step-number">2</div><div>${proposta.dossie.plano[1]}</div></div><div class="proposal-step"><div class="step-number">3</div><div>${proposta.dossie.plano[2]}</div></div><h3>${iconesDossie.prova} Prova (Mini-Case)</h3><p>${proposta.dossie.prova}</p><h3>${iconesDossie.roi} Projeção de ROI</h3><p>${proposta.dossie.roi}</p></div></div>`;
+            proposalModalOverlay.innerHTML = conteudoHTML;
+            proposalModalOverlay.classList.add('active');
+        }
+
+        window.fecharModal = function(modalId) { document.getElementById(modalId).classList.remove('active'); }
+        window.mudarAba = function(
