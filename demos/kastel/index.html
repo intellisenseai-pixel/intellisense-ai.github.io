@@ -3,28 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kastel - Dashboard de Inteligência v11.0 | Intellisense AI</title>
+    <title>Kastel - Dashboard de Inteligência v12.0 | Intellisense AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Estilos base (sem alterações significativas ) */
-        :root { --cor-fundo: #f9f9f9; --cor-primaria: #002d4b; --cor-secundaria: #b59247; --cor-texto: #343a40; --cor-sucesso: #28a745; --cor-alerta: #ffc107; --cor-perigo: #dc3545; --cor-branco: #ffffff; --cor-neutra: #adb5bd; --sombra-card: 0 7px 25px rgba(0, 45, 75, 0.08); --sombra-card-hover: 0 15px 35px rgba(0, 45, 75, 0.15); }
+        :root { --cor-fundo: #f9f9f9; --cor-primaria: #002d4b; --cor-secundaria: #b59247; --cor-texto: #343a40; --cor-sucesso: #28a745; --cor-alerta: #ffc107; --cor-perigo: #dc3545; --cor-branco: #ffffff; --sombra-card: 0 7px 25px rgba(0, 45, 75, 0.08 ); --sombra-card-hover: 0 10px 30px rgba(0, 45, 75, 0.12); }
         body { font-family: 'Montserrat', sans-serif; background-color: var(--cor-fundo); color: var(--cor-texto); margin: 0; line-height: 1.6; }
         header { background-color: var(--cor-primaria); color: var(--cor-branco); padding: 1.5rem 3rem; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
         main { padding: 3.5rem; max-width: 1600px; margin: 0 auto; }
         h2 { font-size: 2.2rem; font-weight: 600; color: var(--cor-primaria); border-bottom: 2px solid var(--cor-secundaria); padding-bottom: 1rem; margin-bottom: 3rem; }
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 3rem; }
         .card { background-color: var(--cor-branco); border-radius: 16px; box-shadow: var(--sombra-card); padding: 2.5rem 3rem; transition: transform 0.3s, box-shadow 0.3s; border: 1px solid #f0f0f0; }
-        .card-clickable:hover { transform: translateY(-10px); box-shadow: var(--sombra-card-hover); cursor: pointer; }
+        .card-clickable:hover { transform: translateY(-8px); box-shadow: var(--sombra-card-hover); cursor: pointer; }
         .card h3 { margin: 0; font-size: 1.25rem; font-weight: 600; }
         .metric { font-size: 3.8rem; font-weight: 700; }
         .sub-metric { font-size: 3rem; font-weight: 700; }
         small { color: #6c757d; font-size: 0.95rem; }
         .card a { color: var(--cor-secundaria); text-decoration: none; font-weight: 600; }
-        
-        /* Estilos do Modal Principal */
+        .text-sucesso { color: var(--cor-sucesso); } .text-alerta { color: var(--cor-secundaria); } .text-perigo { color: var(--cor-perigo); }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 45, 75, 0.7); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.4s ease; z-index: 1000; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-container { background-color: var(--cor-fundo); border-radius: 16px; width: 90%; max-width: 900px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.3); transform: scale(0.95); transition: transform 0.4s ease; }
@@ -37,102 +35,79 @@
         .tab-button.active { color: var(--cor-primaria); border-bottom-color: var(--cor-secundaria); }
         .modal-body { padding: 2.5rem; overflow-y: auto; }
         .tab-content { display: none; } .tab-content.active { display: block; }
-        
-        /* NOVO: Estilo para os cards de oportunidade clicáveis */
-        .opportunity-card { margin-bottom: 1.5rem; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
-        .opportunity-card:hover { transform: translateY(-5px); box-shadow: var(--sombra-card-hover); }
-
-        /* NOVO: Estilos para o Modal de Proposta (Dossiê) */
-        .proposal-modal-body { padding: 2.5rem; }
+        .opportunity-card { margin-bottom: 1.5rem; }
         .proposal-modal-body h3 { color: var(--cor-primaria); border-bottom: 2px solid var(--cor-secundaria); padding-bottom: 0.5rem; margin-top: 2rem; margin-bottom: 1rem; font-size: 1.4rem; }
-        .proposal-modal-body h3:first-child { margin-top: 0; }
         .proposal-step { display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 1rem; }
         .proposal-step .step-number { font-size: 2rem; font-weight: 700; color: var(--cor-secundaria); line-height: 1; }
     </style>
 </head>
 <body>
-    <!-- Estrutura HTML principal (sem alterações) -->
-    <header><h1>Intellisense AI & Kastel | Dashboard de Inteligência v11.0</h1></header>
+    <header><h1>Intellisense AI & Kastel | Dashboard de Inteligência v12.0</h1></header>
     <main>
-        <!-- ... seções de visão geral e unidades ... -->
+        <section id="visao-geral">
+            <h2>Visão Geral da Rede</h2>
+            <div class="dashboard-grid">
+                <div class="card card-clickable" onclick="abrirModal('notaMedia')">
+                    <h3>Nota Média da Rede</h3><p class="metric text-alerta">4.2</p><small>Baseado em 2.417 reviews</small>
+                </div>
+                <div class="card card-clickable" onclick="abrirModal('sentimentoGeral')">
+                    <h3>Sentimento Geral</h3><p class="metric text-sucesso">81%</p><small>Positivo</small>
+                </div>
+                <div class="card card-clickable" onclick="abrirModal('oportunidadeReceita')">
+                    <h3>Oportunidade de Receita</h3><p class="metric text-sucesso">+R$ 1.8M</p><small>Potencial anual ao atingir nota 4.6</small>
+                </div>
+            </div>
+        </section>
+        <section id="unidades" style="margin-top: 4.5rem;">
+            <h2>Performance por Unidade</h2>
+            <div class="dashboard-grid">
+                <div class="card"><h3>Kastel Petrópolis</h3><p class="sub-metric text-alerta">4.2 ★</p><a onclick="abrirModal('petropolis')">Analisar Unidade &rarr;</a></div>
+                <div class="card"><h3>Kastel Recife</h3><p class="sub-metric text-perigo">4.0 ★</p><a onclick="abrirModal('recife')">Analisar Unidade &rarr;</a></div>
+                <div class="card"><h3>Kastel Búzios</h3><p class="sub-metric text-sucesso">4.5 ★</p><a onclick="abrirModal('buzios')">Analisar Unidade &rarr;</a></div>
+                <div class="card"><h3>Kastel João Pessoa</h3><p class="sub-metric text-alerta">4.1 ★</p><a onclick="abrirModal('joaopessoa')">Analisar Unidade &rarr;</a></div>
+            </div>
+        </section>
     </main>
     <div class="modal-overlay" id="modal-overlay"></div>
-    <div class="modal-overlay" id="proposal-modal-overlay"></div> <!-- NOVO: Modal secundário -->
+    <div class="modal-overlay" id="proposal-modal-overlay"></div>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- DADOS ---
         const dadosUnidades = {
+            petropolis: { /* ... */ }, recife: { /* ... */ }, joaopessoa: { /* ... */ },
             buzios: { 
                 titulo: "Análise: Kastel Búzios", 
-                resumo: { fortes: ["Design e elegância", "Piscina com borda infinita", "Gastronomia de alto nível"], fracos: ["Serviço lento em alta temporada", "Preços de bebidas elevados", "Distância da Rua das Pedras"] }, 
-                sentimento: { /* ... */ }, 
+                resumo: { fortes: ["Design e elegância", "Piscina com borda infinita"], fracos: ["Serviço lento em alta temporada", "Preços de bebidas elevados"] }, 
+                sentimento: { reviewPositivo: "Que hotel! O lugar é um sonho...", reviewNegativo: "Pelo preço que pagamos, esperávamos um serviço mais ágil." }, 
                 oportunidades: {
-                    reprecificacao: {
-                        titulo: "Reprecificação",
-                        resumo: "A nota 4.5 já permite uma tarifa premium. O foco é proteger a margem com reservas diretas, economizando +R$ 600k/ano em comissões.",
-                        dossie: {
-                            objetivo: "Reduzir a dependência de OTAs (Booking, Expedia) em 30% em 12 meses, aumentando a margem de lucro em R$ 600k/ano.",
-                            diagnostico: "A alta comissão paga às OTAs corrói uma margem que poderia ser reinvestida na experiência do hóspede ou ir direto para o lucro.",
-                            plano: [
-                                "<strong>Fase 1 (Diagnóstico):</strong> Análise completa do funil de reserva atual e implementação de tracking para identificar pontos de abandono.",
-                                "<strong>Fase 2 (Motor de Reservas):</strong> Desenvolvimento de um motor de reservas próprio, integrado ao site, com a identidade visual da Kastel e otimizado para conversão.",
-                                "<strong>Fase 3 (Incentivo):</strong> Criação de uma campanha de 'Vantagens da Reserva Direta' (ex: welcome drink, late check-out) para educar e incentivar o cliente a usar o canal próprio."
-                            ],
-                            prova: "Um hotel de luxo em Gramado, nosso parceiro, viu um aumento de 40% nas reservas diretas em 6 meses após implementar uma estratégia similar.",
-                            roi: "O investimento no desenvolvimento do sistema se paga em menos de 8 meses apenas com a economia de comissões."
-                        }
-                    },
-                    upselling: {
-                        titulo: "Upselling Inteligente",
-                        resumo: "Criar 'Pacotes de Experiência Romântica' (jantar + espumante + massagem) para aumentar o ticket médio em 25%.",
-                        dossie: {
-                            objetivo: "Aumentar o ticket médio por reserva em 25% através da oferta de pacotes de experiência personalizados.",
-                            diagnostico: "O hóspede de Búzios busca experiências, não apenas uma cama. O fluxo de reserva atual não explora o potencial de venda de serviços agregados.",
-                            plano: [
-                                "<strong>Fase 1 (Criação de Pacotes):</strong> Definição de 3 pacotes de experiência (Romântico, Aventura, Relax) com base na análise de perfil dos hóspedes.",
-                                "<strong>Fase 2 (Integração no Funil):</strong> Integração das ofertas de pacotes no novo motor de reservas, com apresentação visual atraente e gatilhos de urgência ('Apenas 2 pacotes restantes para esta data').",
-                                "<strong>Fase 3 (Remarketing):</strong> Campanhas de e-mail e social media para hóspedes que não adicionaram um pacote, oferecendo-os como um 'upgrade de última hora'."
-                            ],
-                            prova: "Redes hoteleiras nos EUA reportam que ofertas de pacotes no momento da reserva podem aumentar a receita por cliente em até 35%.",
-                            roi: "Cada pacote vendido representa lucro quase puro, com um potencial de +R$ 300k/ano em receita adicional com baixo custo de implementação."
-                        }
-                    }
+                    reprecificacao: { titulo: "Reprecificação", resumo: "Proteger a margem com reservas diretas, economizando +R$ 600k/ano.", dossie: { objetivo: "Reduzir a dependência de OTAs em 30% em 12 meses...", diagnostico: "A alta comissão paga às OTAs corrói a margem de lucro.", plano: ["Análise do funil de reserva.", "Desenvolvimento de motor de reservas próprio.", "Criação de campanha de 'Vantagens da Reserva Direta'."], prova: "Hotel parceiro em Gramado viu aumento de 40% nas reservas diretas.", roi: "Investimento se paga em menos de 8 meses." } },
+                    upselling: { titulo: "Upselling Inteligente", resumo: "Criar 'Pacotes de Experiência Romântica' para aumentar o ticket médio em 25%.", dossie: { objetivo: "Aumentar o ticket médio por reserva em 25%.", diagnostico: "O fluxo de reserva atual não explora a venda de serviços agregados.", plano: ["Definição de 3 pacotes de experiência.", "Integração dos pacotes no funil de reserva.", "Campanhas de remarketing para não compradores."], prova: "Redes nos EUA reportam aumento de receita de até 35% com pacotes.", roi: "Potencial de +R$ 300k/ano em receita adicional." } }
                 }
-            },
-            // ... dados das outras unidades
+            }
         };
 
-        // --- VARIÁVEIS E ELEMENTOS ---
         const modalOverlay = document.getElementById('modal-overlay');
         const proposalModalOverlay = document.getElementById('proposal-modal-overlay');
 
-        // --- FUNÇÕES ---
         window.abrirModal = function(id) {
             const dados = dadosUnidades[id];
-            if (!dados) return; // Simplificado para focar no modal de unidade
+            if (!dados) return;
 
             const conteudoHTML = `
                 <div class="modal-container">
-                    <div class="modal-header"><h2>${dados.titulo}</h2><button class="modal-close" onclick="fecharModal('modal-overlay')">&times;</button></div>
+                    <div class="modal-header"><button class="modal-close" onclick="fecharModal('modal-overlay')">&times;</button><h2>${dados.titulo}</h2></div>
                     <div class="modal-tabs">
                         <button class="tab-button active" onclick="mudarAba(event, 'resumo')">Resumo</button>
                         <button class="tab-button" onclick="mudarAba(event, 'sentimento')">Análise de Sentimento</button>
                         <button class="tab-button" onclick="mudarAba(event, 'oportunidades')">Oportunidades de Receita</button>
                     </div>
                     <div class="modal-body">
-                        <div id="resumo" class="tab-content active">...</div>
-                        <div id="sentimento" class="tab-content">...</div>
+                        <div id="resumo" class="tab-content active"><h3>Pontos Fortes</h3><ul>${dados.resumo.fortes.map(p => `<li>${p}</li>`).join('')}</ul><h3>Pontos de Melhoria</h3><ul>${dados.resumo.fracos.map(p => `<li>${p}</li>`).join('')}</ul></div>
+                        <div id="sentimento" class="tab-content"><h3>Exemplos de Análise</h3><p>${dados.sentimento.reviewPositivo}</p><p>${dados.sentimento.reviewNegativo}</p></div>
                         <div id="oportunidades" class="tab-content">
                             <h3>Oportunidades Estratégicas</h3>
-                            <div class="card opportunity-card" onclick="abrirModalProposta('buzios', 'reprecificacao')">
-                                <h4>${dados.oportunidades.reprecificacao.titulo}</h4>
-                                <p>${dados.oportunidades.reprecificacao.resumo}</p>
-                            </div>
-                            <div class="card opportunity-card" onclick="abrirModalProposta('buzios', 'upselling')">
-                                <h4>${dados.oportunidades.upselling.titulo}</h4>
-                                <p>${dados.oportunidades.upselling.resumo}</p>
-                            </div>
+                            <div class="card card-clickable opportunity-card" onclick="abrirModalProposta('buzios', 'reprecificacao')"><h4>${dados.oportunidades.reprecificacao.titulo}</h4><p>${dados.oportunidades.reprecificacao.resumo}</p></div>
+                            <div class="card card-clickable opportunity-card" onclick="abrirModalProposta('buzios', 'upselling')"><h4>${dados.oportunidades.upselling.titulo}</h4><p>${dados.oportunidades.upselling.resumo}</p></div>
                         </div>
                     </div>
                 </div>`;
@@ -144,30 +119,23 @@
             const proposta = dadosUnidades[unidadeId].oportunidades[propostaId];
             const conteudoHTML = `
                 <div class="modal-container">
-                    <div class="modal-header"><h2>Dossiê: ${proposta.titulo}</h2><button class="modal-close" onclick="fecharModal('proposal-modal-overlay')">&times;</button></div>
+                    <div class="modal-header"><button class="modal-close" onclick="fecharModal('proposal-modal-overlay')">&times;</button><h2>Dossiê: ${proposta.titulo}</h2></div>
                     <div class="modal-body proposal-modal-body">
-                        <h3>🎯 Objetivo</h3>
-                        <p>${proposta.dossie.objetivo}</p>
-                        <h3>🩺 Diagnóstico</h3>
-                        <p>${proposta.dossie.diagnostico}</p>
+                        <h3>🎯 Objetivo</h3><p>${proposta.dossie.objetivo}</p>
+                        <h3>🩺 Diagnóstico</h3><p>${proposta.dossie.diagnostico}</p>
                         <h3>🗺️ Plano de Ação</h3>
                         <div class="proposal-step"><div class="step-number">1</div><div>${proposta.dossie.plano[0]}</div></div>
                         <div class="proposal-step"><div class="step-number">2</div><div>${proposta.dossie.plano[1]}</div></div>
                         <div class="proposal-step"><div class="step-number">3</div><div>${proposta.dossie.plano[2]}</div></div>
-                        <h3>🏆 Prova (Mini-Case)</h3>
-                        <p>${proposta.dossie.prova}</p>
-                        <h3>💰 Projeção de ROI</h3>
-                        <p>${proposta.dossie.roi}</p>
+                        <h3>🏆 Prova (Mini-Case)</h3><p>${proposta.dossie.prova}</p>
+                        <h3>💰 Projeção de ROI</h3><p>${proposta.dossie.roi}</p>
                     </div>
                 </div>`;
             proposalModalOverlay.innerHTML = conteudoHTML;
             proposalModalOverlay.classList.add('active');
         }
 
-        window.fecharModal = function(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-        }
-
+        window.fecharModal = function(modalId) { document.getElementById(modalId).classList.remove('active'); }
         window.mudarAba = function(event, abaId) {
             const modal = event.target.closest('.modal-container');
             modal.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
@@ -176,7 +144,6 @@
             event.currentTarget.classList.add('active');
         }
 
-        // --- EVENT LISTENERS ---
         modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) fecharModal('modal-overlay'); });
         proposalModalOverlay.addEventListener('click', (e) => { if (e.target === proposalModalOverlay) fecharModal('proposal-modal-overlay'); });
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { fecharModal('modal-overlay'); fecharModal('proposal-modal-overlay'); } });
