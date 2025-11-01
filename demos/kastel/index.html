@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kastel - Dashboard de Reputação | Intellisense AI</title>
+    <title>Kastel - Dashboard de Inteligência v10.0 | Intellisense AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
         :root {
             --cor-fundo: #f9f9f9; --cor-primaria: #002d4b; --cor-secundaria: #b59247; --cor-texto: #343a40;
             --cor-sucesso: #28a745; --cor-alerta: #ffc107; --cor-perigo: #dc3545; --cor-branco: #ffffff; --cor-neutra: #adb5bd;
-            --sombra-card: 0 7px 25px rgba(0, 45, 75, 0.08 ); --sombra-card-hover: 0 15px 35px rgba(0, 45, 75, 0.15);
+            --sombra-card: 0 7px 25px rgba(0, 45, 75, 0.08  ); --sombra-card-hover: 0 15px 35px rgba(0, 45, 75, 0.15);
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes countUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -37,97 +37,9 @@
         .text-sucesso { color: var(--cor-sucesso); } .text-alerta { color: var(--cor-secundaria); } .text-perigo { color: var(--cor-perigo); }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 45, 75, 0.7); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease; z-index: 1000; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-container { background-color: var(--cor-fundo); border-radius: 16px; padding: 0; width: 90%; max-width: 900px; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.3); transform: scale(0.95); transition: transform 0.4s ease; }
+        .modal-container { background-color: var(--cor-fundo); border-radius: 16px; padding: 0; width: 90%; max-width: 1100px; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.3); transform: scale(0.95); transition: transform 0.4s ease; }
         .modal-overlay.active .modal-container { transform: scale(1); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2.5rem; border-bottom: 1px solid #ddd; background: var(--cor-branco); }
         .modal-header h2 { border: none; margin: 0; padding: 0; font-size: 1.8rem; }
         .modal-close { font-size: 2.5rem; font-weight: 300; cursor: pointer; border: none; background: none; color: var(--cor-texto); }
-        .modal-tabs { display: flex; border-bottom: 1px solid #ddd; background: #fff; padding: 0 2.5rem; }
-        .tab-button { padding: 1rem 1.5rem; cursor: pointer; border: none; background: none; font-size: 1rem; font-weight: 600; color: #888; border-bottom: 3px solid transparent; transition: color 0.3s, border-color 0.3s; }
-        .tab-button.active { color: var(--cor-primaria); border-bottom-color: var(--cor-secundaria); }
-        .modal-body { padding: 2.5rem; overflow-y: auto; flex-grow: 1; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.5s; }
-        .review { border-left: 4px solid; padding-left: 1.5rem; margin: 1.5rem 0; font-style: italic; }
-        .review.positive { border-color: var(--cor-sucesso); } .review.negative { border-color: var(--cor-perigo); }
-    </style>
-</head>
-<body>
-    <header><h1>Intellisense AI & Kastel | Dashboard de Reputação</h1></header>
-    <main>
-        <section id="visao-geral">
-            <h2>Visão Geral da Rede</h2>
-            <div class="dashboard-grid">
-                <div class="card" onclick="abrirModal('notaMedia')"><div class="card-header"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><h3>Nota Média da Rede</h3></div><p class="metric text-alerta">4.2</p><small>Baseado em 2.417 reviews</small></div>
-                <div class="card" onclick="abrirModal('sentimentoGeral' )"><div class="card-header"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 17.08z"/></svg><h3>Sentimento Geral</h3></div><p class="metric text-sucesso">81%</p><small>Positivo</small></div>
-                <div class="card" onclick="abrirModal('oportunidadeReceita' )"><div class="card-header"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-9h4v2h-4v-2zm-2 4h8v2H8v-2zm4-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg><h3>Oportunidade de Receita</h3></div><p class="metric text-sucesso">+R$ 1.8M</p><small>Potencial anual ao atingir nota 4.6</small></div>
-            </div>
-        </section>
-        <section id="unidades" style="margin-top: 4.5rem;">
-            <h2>Performance por Unidade</h2>
-            <div class="dashboard-grid">
-                <div class="card"><h3>Kastel Petrópolis</h3><p class="sub-metric text-alerta">4.2 ★</p><a onclick="abrirModal('petropolis' )">Analisar Unidade &rarr;</a></div>
-                <div class="card"><h3>Kastel Recife</h3><p class="sub-metric text-perigo">4.0 ★</p><a onclick="abrirModal('recife')">Analisar Unidade &rarr;</a></div>
-                <div class="card"><h3>Kastel Búzios</h3><p class="sub-metric text-sucesso">4.5 ★</p><a onclick="abrirModal('buzios')">Analisar Unidade &rarr;</a></div>
-                <div class="card"><h3>Kastel João Pessoa</h3><p class="sub-metric text-alerta">4.1 ★</p><a onclick="abrirModal('joaopessoa')">Analisar Unidade &rarr;</a></div>
-            </div>
-        </section>
-    </main>
-    <div class="modal-overlay" id="modal-overlay"><div class="modal-container" id="modal-container"></div></div>
-    <script>
-        // Configurações globais para todos os gráficos
-        Chart.defaults.font.family = "'Montserrat', sans-serif";
-        Chart.defaults.color = '#343a40';
-
-        let currentChart = null;
-        const dadosUnidades = {
-            petropolis: { titulo: "Análise: Kastel Petrópolis", resumo: { fortes: ["Localização central", "Café da manhã elogiado", "Charme histórico"], fracos: ["Quartos precisam de modernização", "Barulho da rua", "Wi-Fi inconstante"] }, sentimento: { reviewPositivo: "A localização é simplesmente perfeita, no coração de tudo. O café da manhã foi um dos melhores que já tivemos, com muita variedade e qualidade.", reviewNegativo: "O hotel é lindo, mas o quarto era muito antigo. O chuveiro não esquentava direito e o barulho da rua à noite atrapalhou nosso sono." }, oportunidades: { reprecificacao: "Aumentar a nota de 4.2 para 4.6 pode justificar um aumento de 15% na diária, gerando +R$ 450k/ano.", upselling: "18% dos reviews mencionam 'quarto antigo'. Oferecer um 'Upgrade para Suíte Imperial' no momento da reserva poderia capturar +R$ 200k/ano." } },
-            recife: { titulo: "Análise: Kastel Recife", resumo: { fortes: ["Vista para o mar", "Área da piscina", "Proximidade com feirinha"], fracos: ["Atendimento na recepção", "Mobiliário desgastado", "Cardápio limitado"] }, sentimento: { reviewPositivo: "A vista do nosso quarto era de tirar o fôlego! Passamos a maior parte do tempo na piscina, que é ótima.", reviewNegativo: "Ficamos mais de 30 minutos para fazer o check-in. O pessoal da recepção parecia perdido. O quarto era espaçoso, mas os móveis estavam velhos." }, oportunidades: { reprecificacao: "Aumentar a nota de 4.0 para 4.4 pode justificar um aumento de 12% na diária, gerando +R$ 350k/ano.", upselling: "25% dos reviews mencionam 'atendimento lento'. Oferecer um 'Check-in Expresso VIP' por uma pequena taxa poderia gerar +R$ 100k/ano e melhorar a percepção." } },
-            buzios: { titulo: "Análise: Kastel Búzios", resumo: { fortes: ["Design e elegância", "Piscina com borda infinita", "Gastronomia de alto nível"], fracos: ["Serviço lento em alta temporada", "Preços de bebidas elevados", "Distância da Rua das Pedras"] }, sentimento: { reviewPositivo: "Que hotel! O lugar é um sonho, cada detalhe pensado. A piscina é o ponto alto. Perfeito para relaxar com estilo.", reviewNegativo: "Pelo preço que pagamos, esperávamos um serviço mais ágil. Demorou 40 minutos para um drink chegar na piscina. Fica um pouco longe do centro, precisa de carro para tudo." }, oportunidades: { reprecificacao: "A nota 4.5 já permite uma tarifa premium. O foco é proteger a margem com reservas diretas, economizando +R$ 600k/ano em comissões.", upselling: "Criar 'Pacotes de Experiência Romântica' (jantar + espumante + massagem) para aumentar o ticket médio em 25%." } },
-            joaopessoa: { titulo: "Análise: Kastel João Pessoa", resumo: { fortes: ["Custo-benefício", "Cultura local autêntica", "Proximidade com o aeroporto"], fracos: ["Infraestrutura do hotel simples", "Praia em frente não é ideal para banho", "Opções de lazer limitadas"] }, sentimento: { reviewPositivo: "Ótimo hotel pelo preço. Simples, mas limpo e com uma equipe muito simpática que nos deu ótimas dicas de passeios.", reviewNegativo: "Achei que o hotel seria mais 'pé na areia', mas a praia em frente é um pouco suja. A piscina é pequena e não há muito o que fazer no hotel à noite." }, oportunidades: { reprecificacao: "Aumentar a nota de 4.1 para 4.4 pode justificar um aumento de 10% na diária, gerando +R$ 250k/ano.", upselling: "Vender 'Passeios Culturais Exclusivos' (parceria com guias locais) diretamente no fluxo de reserva para agregar valor e receita." } }
-        };
-        const modalOverlay = document.getElementById('modal-overlay');
-        const modalContainer = document.getElementById('modal-container');
-        function abrirModal(id) {
-            if (currentChart) { currentChart.destroy(); }
-            const dados = dadosUnidades[id];
-            let conteudoHTML = '';
-            if(dados) { // Modal de Unidade
-                conteudoHTML = `<div class="modal-header"><h2>${dados.titulo}</h2><button class="modal-close" onclick="fecharModal()">&times;</button></div><div class="modal-tabs"><button class="tab-button active" onclick="mudarAba(event, 'resumo')">Resumo</button><button class="tab-button" onclick="mudarAba(event, 'sentimento')">Análise de Sentimento</button><button class="tab-button" onclick="mudarAba(event, 'oportunidades')">Oportunidades de Receita</button></div><div class="modal-body"><div id="resumo" class="tab-content active"><h3>Pontos Fortes</h3><ul>${dados.resumo.fortes.map(p => `<li>${p}</li>`).join('')}</ul><h3>Pontos de Melhoria</h3><ul>${dados.resumo.fracos.map(p => `<li>${p}</li>`).join('')}</ul></div><div id="sentimento" class="tab-content"><h3>Exemplos de Análise</h3><div class="review positive"><p>"${dados.sentimento.reviewPositivo}"</p></div><div class="review negative"><p>"${dados.sentimento.reviewNegativo}"</p></div></div><div id="oportunidades" class="tab-content"><h3>Oportunidades Estratégicas</h3><div class="card" style="margin-bottom:1.5rem"><h4>Reprecificação</h4><p>${dados.oportunidades.reprecificacao}</p></div><div class="card"><h4>Upselling Inteligente</h4><p>${dados.oportunidades.upselling}</p></div></div></div>`;
-            } else { // Modais da Visão Geral
-                let chartHTML = '<canvas id="chart"></canvas>';
-                let titulo = '';
-                if(id === 'notaMedia') { titulo = 'Evolução da Nota Média (Simulado)'; }
-                if(id === 'sentimentoGeral') { titulo = 'Distribuição de Sentimento'; }
-                if(id === 'oportunidadeReceita') { titulo = 'Projeção de Receita'; }
-                conteudoHTML = `<div class="modal-header"><h2>${titulo}</h2><button class="modal-close" onclick="fecharModal()">&times;</button></div><div class="modal-body">${chartHTML}</div>`;
-            }
-            modalContainer.innerHTML = conteudoHTML;
-            modalOverlay.classList.add('active');
-            
-            if(!dados) { // Renderiza o gráfico se não for modal de unidade
-                const ctx = document.getElementById('chart').getContext('2d');
-                const cssVars = getComputedStyle(document.documentElement);
-                if (id === 'notaMedia') {
-                    currentChart = new Chart(ctx, { type: 'line', data: { labels: ['Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'], datasets: [{ label: 'Nota Média', data: [4.0, 4.1, 4.0, 4.2, 4.1, 4.2], borderColor: cssVars.getPropertyValue('--cor-secundaria'), tension: 0.4, fill: true, backgroundColor: 'rgba(181, 146, 71, 0.1)' }] }, options: { responsive: true, plugins: { legend: { labels: { color: cssVars.getPropertyValue('--cor-texto') } } }, scales: { x: { ticks: { color: cssVars.getPropertyValue('--cor-texto') } }, y: { ticks: { color: cssVars.getPropertyValue('--cor-texto') } } } } });
-                }
-                if (id === 'sentimentoGeral') {
-                    currentChart = new Chart(ctx, { type: 'doughnut', data: { labels: ['Positivo', 'Neutro', 'Negativo'], datasets: [{ data: [81, 12, 7], backgroundColor: [cssVars.getPropertyValue('--cor-sucesso'), cssVars.getPropertyValue('--cor-neutra'), cssVars.getPropertyValue('--cor-perigo')], borderWidth: 0 }] }, options: { responsive: true, cutout: '70%', plugins: { legend: { labels: { color: cssVars.getPropertyValue('--cor-texto') } } } } });
-                }
-                if (id === 'oportunidadeReceita') {
-                    currentChart = new Chart(ctx, { type: 'bar', data: { labels: ['Receita Atual (Estimada)', 'Receita Potencial'], datasets: [{ label: 'Receita Anual (em Milhões R$)', data: [12.5, 14.3], backgroundColor: [cssVars.getPropertyValue('--cor-neutra'), cssVars.getPropertyValue('--cor-sucesso')] }] }, options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { ticks: { color: cssVars.getPropertyValue('--cor-texto') } }, y: { ticks: { color: cssVars.getPropertyValue('--cor-texto') } } } } });
-                }
-            }
-        }
-        function fecharModal() { modalOverlay.classList.remove('active'); }
-        function mudarAba(event, abaId) {
-            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-            document.querySelectorAll('.tab-button').forEach(tb => tb.classList.remove('active'));
-            document.getElementById(abaId).classList.add('active');
-            event.currentTarget.classList.add('active');
-        }
-        modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) fecharModal(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fecharModal(); });
-    </script>
-</body>
-</html>
+ 
